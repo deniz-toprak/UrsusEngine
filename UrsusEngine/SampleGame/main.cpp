@@ -1,4 +1,4 @@
-#include "UrsusEngine/engine.h"
+#include "UrsusEngine/Central/engine.h"
 
 #ifdef  _DEBUG
 #define EngineMain main
@@ -10,6 +10,7 @@ int EngineMain()
 {
 	Engine* engine = new Engine();
 	//code here
+	//nothing
 	delete engine;
 	return 0;
 }

@@ -166,10 +166,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="engine.cpp" />
+    <ClCompile Include="Central\engine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="engine.h" />
+    <ClInclude Include="Central\engine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
