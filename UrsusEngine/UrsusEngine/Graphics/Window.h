@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "Sprite.h"
 
 //forward declare sfml render window class
 namespace sf
@@ -17,6 +18,9 @@ namespace UrsusEngine
 
 	public:
 		bool Update();
+		void BeginDraw();
+		void EndDraw();
+		void Draw(Sprite* sprite);
 
 	private:
 		sf::RenderWindow* m_Window;

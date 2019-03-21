@@ -1,4 +1,5 @@
 #include "engine.h"
+#include <algorithm>
 
 using namespace UrsusEngine;
 
@@ -21,4 +22,36 @@ void Engine::Update()
 		m_IsRunning = false;
 		return;
 	}
+}
+
+void Engine::Draw()
+{
+	m_Window->BeginDraw();
+	for (Sprite* sprite : m_Sprites)
+	{
+		m_Window->Draw(sprite);
+	}
+	m_Window->EndDraw();
+}
+
+Sprite* Engine::CreateSprite(const char* url)
+{
+	Sprite* sprite = new Sprite(url);
+	m_Sprites.push_back(sprite);
+	return sprite;
+}
+
+void Engine::DestroySprite(Sprite* sprite)
+{
+	//Try find sprite
+	std::vector<Sprite*>::iterator spriteItr = std::find(m_Sprites.begin(), m_Sprites.end(), sprite);
+	//Sprite has not been found, return
+	if (spriteItr == m_Sprites.end())
+	{
+		return;
+	}
+
+	//remove sprite
+	m_Sprites.erase(spriteItr);
+	delete sprite;
 }

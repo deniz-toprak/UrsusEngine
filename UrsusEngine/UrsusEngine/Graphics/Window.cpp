@@ -23,8 +23,7 @@ Window::~Window()
 
 bool Window::Update()
 {
-	//Clear window
-	m_Window->clear(sf::Color::Black);
+	//BeginDraw();
 
 	sf::Event event;
 	//Handle window events
@@ -37,8 +36,24 @@ bool Window::Update()
 			return false;
 		}
 	}
+	//EndDraw();
+	return true;
+}
+
+void Window::BeginDraw()
+{
+	//Clear window
+	m_Window->clear(sf::Color::Black);
+}
+
+void Window::EndDraw()
+{
 	//Display everything
 	m_Window->display();
-	return true;
+}
+
+void Window::Draw(Sprite* sprite)
+{
+	m_Window->draw(*sprite->GetSprite());
 }
 
