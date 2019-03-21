@@ -1,14 +1,22 @@
 #pragma once
 
-class Engine
+#include <string>
+#include "../Graphics/Window.h"
+
+namespace UrsusEngine
 {
-public:
-	Engine();
-	~Engine();
+	class Engine
+	{
+	public:
+		Engine(const int width, const int height, const std::string title, const bool fullscreen);
+		~Engine();
 
-public:
-	const bool isRunning() const { return m_IsRunning; }
+	public:
+		const bool IsRunning() const { return m_IsRunning; }
+		void Update();
 
-private:
-	bool m_IsRunning;
-};
+	private:
+		bool m_IsRunning;
+		Window* m_Window;
+	};
+}

@@ -167,9 +167,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Central\engine.cpp" />
+    <ClCompile Include="Graphics\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Central\engine.h" />
+    <ClInclude Include="Graphics\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
