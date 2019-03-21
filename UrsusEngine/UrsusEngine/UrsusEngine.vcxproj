@@ -167,11 +167,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Central\engine.cpp" />
+    <ClCompile Include="Central\Input.cpp" />
     <ClCompile Include="Graphics\Sprite.cpp" />
     <ClCompile Include="Graphics\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Central\engine.h" />
+    <ClInclude Include="Central\Input.h" />
     <ClInclude Include="Graphics\Sprite.h" />
     <ClInclude Include="Graphics\Window.h" />
   </ItemGroup>

@@ -20,6 +20,23 @@ int EngineMain()
 	while (engine->IsRunning())
 	{
 		engine->Update();
+
+		if (engine->IsKeyPressed(UrsusEngine::Key::S))
+		{
+			playerSprite->Move(0, 0.1f);
+		}
+		if (engine->IsKeyPressed(UrsusEngine::Key::W))
+		{
+			playerSprite->Move(0, -0.1f);
+		}if (engine->IsKeyPressed(UrsusEngine::Key::D))
+		{
+			playerSprite->Move(0.1f, 0);
+		}
+		if (engine->IsKeyPressed(UrsusEngine::Key::A))
+		{
+			playerSprite->Move(-0.1f,0);
+		}
+
 		engine->Draw();
 	}
 

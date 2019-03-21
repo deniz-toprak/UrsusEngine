@@ -7,11 +7,14 @@ Engine::Engine(const int width, const int height, const std::string title, const
 {
 	m_IsRunning = true;
 	m_Window = new Window(width, height, title, fullscreen);
+	m_Input = new Input();
 }
 
 Engine::~Engine()
 {
 	m_IsRunning = false;
+	delete m_Window;
+	delete m_Input;
 }
 
 void Engine::Update()
@@ -54,4 +57,9 @@ void Engine::DestroySprite(Sprite* sprite)
 	//remove sprite
 	m_Sprites.erase(spriteItr);
 	delete sprite;
+}
+
+bool Engine::IsKeyPressed(Key key)
+{
+	return m_Input->IsKeyPressed(key);
 }
