@@ -57,3 +57,7 @@ void Window::Draw(Sprite* sprite)
 	m_Window->draw(*sprite->GetSprite());
 }
 
+void Window::Draw(Text* text)
+{
+	m_Window->draw(*text->GetText());
+}

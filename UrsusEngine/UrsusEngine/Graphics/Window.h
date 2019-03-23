@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "Sprite.h"
+#include "Text.h"
 
 //forward declare sfml render window class
 namespace sf
@@ -21,6 +22,7 @@ namespace UrsusEngine
 		void BeginDraw();
 		void EndDraw();
 		void Draw(Sprite* sprite);
+		void Draw(Text* text);
 
 	private:
 		sf::RenderWindow* m_Window;

@@ -37,6 +37,11 @@ void Engine::Draw()
 	{
 		m_Window->Draw(sprite);
 	}
+
+	for (Text* text : m_Texts)
+	{
+		m_Window->Draw(text);
+	}
 	m_Window->EndDraw();
 }
 
@@ -60,6 +65,28 @@ void Engine::DestroySprite(Sprite* sprite)
 	//remove sprite
 	m_Sprites.erase(spriteItr);
 	delete sprite;
+}
+
+Text* Engine::CreateText(const char* url)
+{
+	Text* text = new Text(url);
+	m_Texts.push_back(text);
+	return text;
+}
+
+void Engine::DestroyText(Text* text)
+{
+	//Try find text
+	std::vector<Text*>::iterator textItr = std::find(m_Texts.begin(), m_Texts.end(), text);
+	//Sprite has not been found, return
+	if (textItr == m_Texts.end())
+	{
+		return;
+	}
+
+	//remove sprite
+	m_Texts.erase(textItr);
+	delete text;
 }
 
 bool Engine::IsKeyPressed(Key key)

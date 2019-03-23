@@ -4,6 +4,7 @@
 #include <vector>
 #include "../Graphics/Window.h"
 #include "../Graphics/Sprite.h"
+#include "../Graphics/Text.h"
 #include "../Graphics/Window.h"
 #include "Input.h"
 #include "Time.h"
@@ -23,8 +24,15 @@ namespace UrsusEngine
 
 		//Graphics & Window
 		void Draw();
+
+		//Sprite handling
 		Sprite* CreateSprite(const char* url);
 		void DestroySprite(Sprite* sprite);
+
+		//Text handling
+		Text* CreateText(const char* url);
+		void DestroyText(Text* text);
+
 
 		//Input handling
 		bool IsKeyPressed(Key key);
@@ -42,6 +50,7 @@ namespace UrsusEngine
 
 		//Graphics
 		std::vector<Sprite*> m_Sprites;
+		std::vector<Text*> m_Texts;
 
 		//Time handling
 		Time* m_Time;

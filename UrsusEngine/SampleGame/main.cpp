@@ -1,5 +1,6 @@
 #include "UrsusEngine/Central/engine.h"
 #include "../UrsusEngine/Graphics/Sprite.h"
+#include "../UrsusEngine/Graphics/Text.h"
 
 #ifdef  _DEBUG
 #define EngineMain main
@@ -16,6 +17,13 @@ int EngineMain()
 	//Resources located in /bin which are ignored for now in github
 	UrsusEngine::Sprite* playerSprite = engine->CreateSprite("Resources/Asteroid_Graphics/player.png");
 	playerSprite->Move(320.f, 200.0f);
+	//Score
+	int playerScore = 0;
+	UrsusEngine::Text* scoreText = engine->CreateText("Resources/Asteroid_Graphics/Hyperspace.otf");
+	scoreText->SetPosition(10.0f, 10.0f);
+	scoreText->SetColour(255, 255, 255);
+	scoreText->SetSize(24);
+	scoreText->SetText("Score: " + std::to_string(0));
 
 	//Game Values
 	const float speedPerSecond = 200.f;
@@ -70,6 +78,7 @@ int EngineMain()
 
 	//Destroy the player
 	engine->DestroySprite(playerSprite);
+	engine->DestroyText(scoreText);
 	//nothing
 	delete engine;
 	return 0;
