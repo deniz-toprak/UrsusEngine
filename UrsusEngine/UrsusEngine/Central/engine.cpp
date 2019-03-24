@@ -54,6 +54,10 @@ Sprite* Engine::CreateSprite(const char* url)
 
 void Engine::DestroySprite(Sprite* sprite)
 {
+	if (sprite == nullptr)
+	{
+		return;
+	}
 	//Try find sprite
 	std::vector<Sprite*>::iterator spriteItr = std::find(m_Sprites.begin(), m_Sprites.end(), sprite);
 	//Sprite has not been found, return
@@ -76,6 +80,10 @@ Text* Engine::CreateText(const char* url)
 
 void Engine::DestroyText(Text* text)
 {
+	if (text == nullptr)
+	{
+		return;
+	}
 	//Try find text
 	std::vector<Text*>::iterator textItr = std::find(m_Texts.begin(), m_Texts.end(), text);
 	//Sprite has not been found, return

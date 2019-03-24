@@ -22,6 +22,9 @@ namespace UrsusEngine
 		//Move sprite method
 		void Move(const float X, const float Y);
 
+		//Collision check with other sprite
+		const bool IsCollidingWith(Sprite* otherSprite);
+
 	private:
 		sf::Texture* m_Texture;
 		sf::Sprite* m_Sprite;

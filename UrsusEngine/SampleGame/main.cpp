@@ -17,6 +17,7 @@ int EngineMain()
 	//Resources located in /bin which are ignored for now in github
 	UrsusEngine::Sprite* playerSprite = engine->CreateSprite("Resources/Asteroid_Graphics/player.png");
 	playerSprite->Move(320.f, 200.0f);
+	
 	//Score
 	int playerScore = 0;
 	UrsusEngine::Text* scoreText = engine->CreateText("Resources/Asteroid_Graphics/Hyperspace.otf");
@@ -24,6 +25,10 @@ int EngineMain()
 	scoreText->SetColour(255, 255, 255);
 	scoreText->SetSize(24);
 	scoreText->SetText("Score: " + std::to_string(0));
+
+	//Asteroids
+	UrsusEngine::Sprite* asteroid = engine->CreateSprite("Resources/Asteroid_Graphics/asteroid1.png");
+	asteroid->Move(500.0f, 220.f);
 
 	//Game Values
 	const float speedPerSecond = 200.f;
@@ -47,6 +52,11 @@ int EngineMain()
 		//high-end pcs
 		while (accumulator >= dt)
 		{
+			//If the player is dead we can just exit this loop!
+			if (playerSprite == nullptr)
+			{
+				break;
+			}
 			//Time-Scaled Player movement
 			float xMovement = 0.f;
 			float yMovement = 0.f;
@@ -71,7 +81,23 @@ int EngineMain()
 
 			accumulator -= dt;
 
+			//When movement happens, collision might happen!
+			//After moving we check for a collision with an asteroid
+			if (playerSprite->IsCollidingWith(asteroid))
+			{
+				//Destroy player
+				engine->DestroySprite(playerSprite);
+				playerSprite = nullptr;
+				//display defeat
+				scoreText->SetPosition(150.f, 100.f);
+				scoreText->SetColour(255, 0, 0);
+				scoreText->SetSize(48);
+				scoreText->SetText("You are dead!\nYour score: " + std::to_string(playerScore));
+
+			}
+
 		}
+
 		
 		engine->Draw();
 	}
