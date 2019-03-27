@@ -26,6 +26,17 @@ void Player::SetPosition(const float X, const float Y)
 	m_Sprite->SetPosition(X, Y);
 }
 
+void Player::SetRotation(const float Rot)
+{
+	m_Sprite->SetRotation(Rot);
+}
+
+void Player::SetVelocity(const float X, const float Y)
+{
+	m_Velocity_X = X;
+	m_Velocity_Y = Y;
+}
+
 void Player::HandleInput(UrsusEngine::Engine* engine)
 {
 	bool isDPressed = engine->IsKeyPressed(UrsusEngine::Key::D);

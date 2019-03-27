@@ -17,6 +17,8 @@ public:
 	//Methods
 public:
 	void SetPosition(const float X, const float Y);
+	void SetRotation(const float Rot);
+	void SetVelocity(const float X, const float Y);
 	void HandleInput(UrsusEngine::Engine* engine);
 	void Update(const float dt);
 
