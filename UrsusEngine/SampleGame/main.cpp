@@ -71,6 +71,7 @@ int EngineMain()
 			player->HandleInput(engine);
 			player->Update(dt);
 
+
 			//If asteroid spawn time run out then try to spawn asteroid
 			if (spawnCD <= 0.f && asteroids.size() < asteroidCount)
 			{
@@ -118,10 +119,10 @@ int EngineMain()
 				asteroid->Update(dt);
 				if (player != nullptr && player->GetSprite()->IsCollidingWith(asteroid->GetSprite()))
 				{
+					//Destroy player
+					engine->DestroySprite(player->GetSprite());
 					delete player;
 					player = nullptr;
-					//Destroy player
-					engine->DestroySprite(playerSprite);
 					playerSprite = nullptr;
 					//display defeat
 					scoreText->SetPosition(150.f, 100.f);
@@ -141,10 +142,11 @@ int EngineMain()
 	//Destroy the player
 	if (player != nullptr)
 	{
-		engine->DestroySprite(playerSprite);
+		engine->DestroySprite(player->GetSprite());
 		delete player;
 		player = nullptr;
 	}
+	//Destroy asteroids
 	for (Asteroid* asteroid : asteroids)
 	{
 		engine->DestroySprite(asteroid->GetSprite());
