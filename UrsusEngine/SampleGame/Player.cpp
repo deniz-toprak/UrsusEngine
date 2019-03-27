@@ -2,7 +2,7 @@
 
 Player::Player(UrsusEngine::Sprite* sprite, const float max_X, const float max_Y)
 {
-	m_Sprite = new UrsusEngine::Sprite(*sprite);
+	m_Sprite = sprite;
 	m_Max_X = max_X;
 	m_Max_Y = max_Y;
 
