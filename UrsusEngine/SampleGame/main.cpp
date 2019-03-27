@@ -1,7 +1,11 @@
+#include <random>
+#include <ctime>
 #include "UrsusEngine/Central/engine.h"
 #include "../UrsusEngine/Graphics/Sprite.h"
 #include "../UrsusEngine/Graphics/Text.h"
 #include "Player.h"
+#include "Asteroid.h"
+
 
 #ifdef  _DEBUG
 #define EngineMain main
@@ -20,7 +24,7 @@ int EngineMain()
 	//Resources located in /bin which are ignored for now in github
 	UrsusEngine::Sprite* playerSprite = engine->CreateSprite("Resources/Asteroid_Graphics/player.png");
 	Player* player = new Player(playerSprite, width, height);
-	playerSprite->Move(320.f, 200.0f);
+	player->SetPosition(320.f, 200.0f);
 	
 	//Score
 	int playerScore = 0;
@@ -31,11 +35,12 @@ int EngineMain()
 	scoreText->SetText("Score: " + std::to_string(0));
 
 	//Asteroids
-	UrsusEngine::Sprite* asteroid = engine->CreateSprite("Resources/Asteroid_Graphics/asteroid1.png");
-	asteroid->Move(500.0f, 220.f);
+	std::vector<Asteroid*> asteroids;
+	const int asteroidCount = 10;
+	const int maxVelocity = 50.f;
+	float spawnCD = 0.f;
+	std::srand(std::time(nullptr));
 
-	//Game Values
-	const float speedPerSecond = 200.f;
 
 	//Define engine chronologics
 	//Set update tick rate to 60 times per second
@@ -62,35 +67,90 @@ int EngineMain()
 				break;
 			}
 
-
 			//Time-Scaled Player movement
 			player->HandleInput(engine);
 			player->Update(dt);
 
-			if (player->GetSprite()->IsCollidingWith(asteroid))
+			//If asteroid spawn time run out then try to spawn asteroid
+			if (spawnCD <= 0.f && asteroids.size() < asteroidCount)
 			{
-				delete player;
-				player = nullptr;
-				//Destroy player
-				engine->DestroySprite(playerSprite);
-				playerSprite = nullptr;
-				//display defeat
-				scoreText->SetPosition(150.f, 100.f);
-				scoreText->SetColour(255, 0, 0);
-				scoreText->SetSize(48);
-				scoreText->SetText("You are dead!\nYour score: " + std::to_string(playerScore));
+				UrsusEngine::Sprite* asteroidSprite = engine->CreateSprite("Resources/Asteroid_Graphics/asteroid1.png");
+				Asteroid* asteroid = new Asteroid(asteroidSprite, width, height);
+				float x = std::rand() % width;
+				float y = std::rand() % height;
+				float xVelocity = (std::rand() % maxVelocity * 2) - maxVelocity;
+				float yVelocity = (std::rand() % maxVelocity * 2) - maxVelocity;
+				float rotation = std::rand() % 360;
+
+				asteroid->SetPosition(x, y);
+				asteroid->SetVelocity(xVelocity, yVelocity);
+				asteroid->SetRotation(rotation);
+
+				//Check if spawned asteroid overlaps with player
+				if (asteroid->GetSprite()->IsCollidingWith(
+						player->GetX() - 64,
+						player->GetY() - 64,
+						128,
+						128
+				))
+				{
+					//If created asteroid does overlap with player then delete it
+					engine->DestroySprite(asteroid->GetSprite());
+					delete asteroid;
+				}
+				else
+				{
+					//If asteroids does not overlaps with player pushback into vector and reset
+					//spawn time for next asteroid
+					asteroids.push_back(asteroid);
+					spawnCD = 1.0f;
+				}
+			} //otherwise decrement spawntime
+			else
+			{
+				spawnCD -= dt;
+			}
+
+
+			//Update all asteroids
+			for (Asteroid* asteroid : asteroids)
+			{
+				asteroid->Update(dt);
+				if (player != nullptr && player->GetSprite()->IsCollidingWith(asteroid->GetSprite()))
+				{
+					delete player;
+					player = nullptr;
+					//Destroy player
+					engine->DestroySprite(playerSprite);
+					playerSprite = nullptr;
+					//display defeat
+					scoreText->SetPosition(150.f, 100.f);
+					scoreText->SetColour(255, 0, 0);
+					scoreText->SetSize(48);
+					scoreText->SetText("You are dead!\nYour score: " + std::to_string(playerScore));
+				}
 			}
 
 			accumulator -= dt;
 
 		}
 
-		
 		engine->Draw();
 	}
 
 	//Destroy the player
-	engine->DestroySprite(playerSprite);
+	if (player != nullptr)
+	{
+		engine->DestroySprite(playerSprite);
+		delete player;
+		player = nullptr;
+	}
+	for (Asteroid* asteroid : asteroids)
+	{
+		engine->DestroySprite(asteroid->GetSprite());
+		delete asteroid;
+	}
+
 	engine->DestroyText(scoreText);
 	//nothing
 	delete engine;
