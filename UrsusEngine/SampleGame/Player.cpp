@@ -24,6 +24,8 @@ Player::~Player()
 void Player::SetPosition(const float X, const float Y)
 {
 	m_Sprite->SetPosition(X, Y);
+	m_X = X;
+	m_Y = Y;
 }
 
 void Player::SetRotation(const float Rot)
