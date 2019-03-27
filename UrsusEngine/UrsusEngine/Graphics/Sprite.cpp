@@ -9,6 +9,8 @@ Sprite::Sprite(const char* url)
 	m_Texture->loadFromFile(url);
 	//dereference the pointer
 	m_Sprite = new sf::Sprite(*m_Texture);
+	sf::Vector2f origin = sf::Vector2f(m_Sprite->getLocalBounds().width/2, m_Sprite->getLocalBounds().height/2);
+	m_Sprite->setOrigin(origin);
 }
 
 Sprite::~Sprite()
