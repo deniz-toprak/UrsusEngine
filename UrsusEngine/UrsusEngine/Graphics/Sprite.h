@@ -26,6 +26,7 @@ namespace UrsusEngine
 
 		//Collision check with other sprite
 		const bool IsCollidingWith(Sprite* otherSprite);
+		const bool IsCollidingWWith(const float left, const float top, const float width, const float height);
 
 	private:
 		sf::Texture* m_Texture;

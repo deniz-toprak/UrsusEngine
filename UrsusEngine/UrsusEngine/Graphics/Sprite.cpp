@@ -43,3 +43,10 @@ const bool Sprite::IsCollidingWith(Sprite* otherSprite)
 	//does it intersect?
 	return thisRect.intersects(otherRect);
 }
+
+const bool Sprite::IsCollidingWith(const float left, const float top, const float width, const float height)
+{
+	sf::FloatRect otherRect(left, top, width, height);
+	sf::FloatRect thisRect = m_Sprite->getGlobalBounds();
+	return thisRect.intersects(otherRect);
+}
