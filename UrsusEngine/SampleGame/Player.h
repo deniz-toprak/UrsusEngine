@@ -1,12 +1,6 @@
 #pragma once
 #include "../UrsusEngine/Central/engine.h"
-
-enum RotateDirection
-{
-	RotateDirectionLeft,
-	RotateDirectionRight,
-	RotateDirectionNone
-};
+#include "Utils.h"
 
 class Player
 {
@@ -21,6 +15,8 @@ public:
 	void SetVelocity(const float X, const float Y);
 	void HandleInput(UrsusEngine::Engine* engine);
 	void Update(const float dt);
+	float GetX() const { return m_X; }
+	float GetY() const { return m_Y; }
 
 	UrsusEngine::Sprite* GetSprite() { return m_Sprite; }
 
