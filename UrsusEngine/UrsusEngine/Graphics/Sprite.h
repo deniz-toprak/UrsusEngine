@@ -21,6 +21,8 @@ namespace UrsusEngine
 
 		//Move sprite method
 		void Move(const float X, const float Y);
+		void SetPosition(const float X, const float Y);
+		void SetRotation(const float Rot);
 
 		//Collision check with other sprite
 		const bool IsCollidingWith(Sprite* otherSprite);

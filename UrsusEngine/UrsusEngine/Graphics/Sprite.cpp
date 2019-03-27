@@ -23,6 +23,16 @@ void Sprite::Move(const float X, const float Y)
 	m_Sprite->move(X, Y);
 }
 
+void Sprite::SetPosition(const float X, const float Y)
+{
+	m_Sprite->setPosition(X, Y);
+}
+
+void Sprite::SetRotation(const float Rot)
+{
+	m_Sprite->setRotation(Rot);
+}
+
 const bool Sprite::IsCollidingWith(Sprite* otherSprite)
 {
 	//Get SFML sprite for it's intersection methods

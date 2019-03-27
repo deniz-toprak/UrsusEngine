@@ -1,6 +1,7 @@
 #include "UrsusEngine/Central/engine.h"
 #include "../UrsusEngine/Graphics/Sprite.h"
 #include "../UrsusEngine/Graphics/Text.h"
+#include "Player.h"
 
 #ifdef  _DEBUG
 #define EngineMain main
@@ -10,12 +11,15 @@
 
 int EngineMain()
 {
-	UrsusEngine::Engine *engine = new UrsusEngine::Engine(640, 480, "Test", false);
+	const int width = 640;
+	const int height = 480;
+	UrsusEngine::Engine *engine = new UrsusEngine::Engine(width, height, "Test", false);
 	
 
 	//Create Player Sprite
 	//Resources located in /bin which are ignored for now in github
 	UrsusEngine::Sprite* playerSprite = engine->CreateSprite("Resources/Asteroid_Graphics/player.png");
+	Player* player = new Player(playerSprite, width, height);
 	playerSprite->Move(320.f, 200.0f);
 	
 	//Score
@@ -57,34 +61,16 @@ int EngineMain()
 			{
 				break;
 			}
+
+
 			//Time-Scaled Player movement
-			float xMovement = 0.f;
-			float yMovement = 0.f;
+			player->HandleInput(engine);
+			player->Update(dt);
 
-			if (engine->IsKeyPressed(UrsusEngine::Key::S))
+			if (player->GetSprite()->IsCollidingWith(asteroid))
 			{
-				yMovement = speedPerSecond * dt;
-			}
-			if (engine->IsKeyPressed(UrsusEngine::Key::W))
-			{
-				yMovement = -speedPerSecond * dt;
-			}
-			if (engine->IsKeyPressed(UrsusEngine::Key::D))
-			{
-				xMovement = speedPerSecond * dt;
-			}
-			if (engine->IsKeyPressed(UrsusEngine::Key::A))
-			{
-				xMovement = -speedPerSecond * dt;
-			}
-			playerSprite->Move(xMovement, yMovement);
-
-			accumulator -= dt;
-
-			//When movement happens, collision might happen!
-			//After moving we check for a collision with an asteroid
-			if (playerSprite->IsCollidingWith(asteroid))
-			{
+				delete player;
+				player = nullptr;
 				//Destroy player
 				engine->DestroySprite(playerSprite);
 				playerSprite = nullptr;
@@ -93,8 +79,9 @@ int EngineMain()
 				scoreText->SetColour(255, 0, 0);
 				scoreText->SetSize(48);
 				scoreText->SetText("You are dead!\nYour score: " + std::to_string(playerScore));
-
 			}
+
+			accumulator -= dt;
 
 		}
 
