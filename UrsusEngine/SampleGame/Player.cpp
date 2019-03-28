@@ -1,4 +1,5 @@
 #include "Player.h"
+#include <algorithm>
 
 Player::Player(UrsusEngine::Sprite* sprite, const float max_X, const float max_Y)
 {
@@ -61,10 +62,21 @@ void Player::HandleInput(UrsusEngine::Engine* engine)
 	}
 
 	m_Accelerate = engine->IsKeyPressed(UrsusEngine::Key::W);
+	m_IsShooting = engine->IsKeyPressed(UrsusEngine::Key::Space) && m_ShootCooldown == 0.f;
 }
 
 void Player::Update(const float dt)
 {
+	if (m_ShootCooldown > 0.f)
+	{
+		m_ShootCooldown = std::max(0.f, m_ShootCooldown - dt);
+	}
+
+	if (m_IsShooting)
+	{
+		m_ShootCooldown = 0.1f;
+	}
+
 	CalculateRotation(dt);
 	CalculateMovement(dt);
 

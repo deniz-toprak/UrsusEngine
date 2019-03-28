@@ -5,6 +5,7 @@
 #include "../UrsusEngine/Graphics/Text.h"
 #include "Player.h"
 #include "Asteroid.h"
+#include "Bullet.h"
 
 
 #ifdef  _DEBUG
@@ -25,6 +26,9 @@ int EngineMain()
 	UrsusEngine::Sprite* playerSprite = engine->CreateSprite("Resources/Asteroid_Graphics/player.png");
 	Player* player = new Player(playerSprite, width, height);
 	player->SetPosition(320.f, 200.0f);
+
+	//Bullets for player
+	std::vector<Bullet*> bullets;
 	
 	//Score
 	int playerScore = 0;
@@ -70,7 +74,15 @@ int EngineMain()
 			//Time-Scaled Player movement
 			player->HandleInput(engine);
 			player->Update(dt);
-
+			
+			//Check for bullet input
+			if (player->IsShooting())
+			{
+				UrsusEngine::Sprite* bulletSprite = engine->CreateSprite("Resources/Asteroid_Graphics/bullet.png");
+				Bullet* bullet = new Bullet(bulletSprite, width, height);
+				bullet->Init(player->GetX(), player->GetY(), player->GetRotation());
+				bullets.push_back(bullet);
+			}
 
 			//If asteroid spawn time run out then try to spawn asteroid
 			if (spawnCD <= 0.f && asteroids.size() < asteroidCount)
@@ -113,6 +125,42 @@ int EngineMain()
 			}
 
 
+			//Iterate through all bullets for collision and lifetime check
+			for (std::vector<Bullet*>::iterator bulletIterator = bullets.begin(); bulletIterator != bullets.end();)
+			{
+				Bullet* bullet = (*bulletIterator);
+				bullet->Update(dt);
+
+				//OnCollision and OnLifeTimeOver bullets gets destroyed
+				//therefore we describe it with the same logical reaction
+				bool collide = bullet->IsLifeTimeOver();
+				for (std::vector<Asteroid*>::iterator asteroidIterator = asteroids.begin(); asteroidIterator != asteroids.end();)
+				{
+					Asteroid* asteroid = (*asteroidIterator);
+					if (bullet->GetSprite()->IsCollidingWith(asteroid->GetSprite()))
+					{
+						engine->DestroySprite(asteroid->GetSprite());
+						asteroidIterator = asteroids.erase(asteroidIterator);
+						delete asteroid;
+						collide = true;
+						break;
+					}
+					//If the asteroid is destroyed we break already, so it's save to always call it here
+					++asteroidIterator;
+				}
+
+				if (collide)
+				{
+					engine->DestroySprite(bullet->GetSprite());
+					bulletIterator = bullets.erase(bulletIterator);
+					delete bullet;
+				}
+				else
+				{
+					++bulletIterator;
+				}
+			}
+
 			//Update all asteroids
 			for (Asteroid* asteroid : asteroids)
 			{
@@ -152,7 +200,12 @@ int EngineMain()
 		engine->DestroySprite(asteroid->GetSprite());
 		delete asteroid;
 	}
-
+	//Destory bullets
+	for (Bullet* bullet : bullets)
+	{
+		engine->DestroySprite(bullet->GetSprite());
+		delete bullet;
+	}
 	engine->DestroyText(scoreText);
 	//nothing
 	delete engine;

@@ -15,9 +15,10 @@ public:
 	void SetVelocity(const float X, const float Y);
 	void HandleInput(UrsusEngine::Engine* engine);
 	void Update(const float dt);
-	float GetX() const { return m_X; }
-	float GetY() const { return m_Y; }
-
+	const bool IsShooting() const { return m_IsShooting; }
+	const float GetX() const { return m_X; }
+	const float GetY() const { return m_Y; }
+	const float GetRotation() const { return m_RotationInDegree; }
 	UrsusEngine::Sprite* GetSprite() { return m_Sprite; }
 
 private:
@@ -41,4 +42,7 @@ private:
 	//Window boundaries
 	int m_Max_X;
 	int m_Max_Y;
+	//Input params
+	bool m_IsShooting;
+	float m_ShootCooldown;
 };
