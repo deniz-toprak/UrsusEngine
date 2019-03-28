@@ -12,7 +12,7 @@ namespace UrsusEngine
 	class Sprite
 	{
 	public:
-		Sprite(const char* url);
+		Sprite(sf::Texture* texture);
 		~Sprite();
 
 	public:
@@ -29,7 +29,6 @@ namespace UrsusEngine
 		const bool IsCollidingWith(const float left, const float top, const float width, const float height);
 
 	private:
-		sf::Texture* m_Texture;
 		sf::Sprite* m_Sprite;
 
 	};

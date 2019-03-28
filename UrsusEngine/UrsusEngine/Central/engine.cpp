@@ -1,4 +1,5 @@
 #include "engine.h"
+#include "../Graphics/TextureManager.h"
 #include <algorithm>
 
 using namespace UrsusEngine;
@@ -45,7 +46,8 @@ void Engine::Draw()
 
 Sprite* Engine::CreateSprite(const char* url)
 {
-	Sprite* sprite = new Sprite(url);
+	sf::Texture* texture = TextureManager::GetInstance().GetTexture(url);
+	Sprite* sprite = new Sprite(texture);
 	m_Sprites.push_back(sprite);
 	return sprite;
 }

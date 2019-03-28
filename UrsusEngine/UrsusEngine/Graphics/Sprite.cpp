@@ -3,20 +3,17 @@
 
 using namespace UrsusEngine;
 
-Sprite::Sprite(const char* url)
+Sprite::Sprite(sf::Texture* texture)
 {
-	m_Texture = new sf::Texture();
-	m_Texture->loadFromFile(url);
-	//dereference the pointer
-	m_Sprite = new sf::Sprite(*m_Texture);
-	sf::Vector2f origin = sf::Vector2f(m_Texture->getSize().x /2, m_Texture->getSize().y /2);
+	//Dereference pointer
+	m_Sprite = new sf::Sprite(*texture);
+	sf::Vector2f origin = sf::Vector2f(texture->getSize().x /2, texture->getSize().y /2);
 	m_Sprite->setOrigin(origin);
 }
 
 Sprite::~Sprite()
 {
 	delete m_Sprite;
-	delete m_Texture;
 }
 
 void Sprite::Move(const float X, const float Y)
