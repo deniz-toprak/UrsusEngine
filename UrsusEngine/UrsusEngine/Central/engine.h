@@ -6,7 +6,7 @@
 #include "../Graphics/Sprite.h"
 #include "../Graphics/Text.h"
 #include "../Graphics/Window.h"
-#include "Input.h"
+#include "InputHelper.h"
 #include "Time.h"
 
 namespace UrsusEngine
@@ -44,9 +44,7 @@ namespace UrsusEngine
 		//Window handling
 		bool m_IsRunning;
 		Window* m_Window;
-		
-		//Input
-		Input* m_Input;
+	
 
 		//Graphics
 		std::vector<Sprite*> m_Sprites;

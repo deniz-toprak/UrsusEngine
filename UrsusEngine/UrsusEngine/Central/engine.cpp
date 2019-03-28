@@ -7,7 +7,6 @@ Engine::Engine(const int width, const int height, const std::string title, const
 {
 	m_IsRunning = true;
 	m_Window = new Window(width, height, title, fullscreen);
-	m_Input = new Input();
 	m_Time = new Time();
 }
 
@@ -15,7 +14,6 @@ Engine::~Engine()
 {
 	m_IsRunning = false;
 	delete m_Window;
-	delete m_Input;
 	delete m_Time;
 }
 
@@ -99,7 +97,7 @@ void Engine::DestroyText(Text* text)
 
 bool Engine::IsKeyPressed(Key key)
 {
-	return m_Input->IsKeyPressed(key);
+	return InputHelper::IsKeyPressed(key);
 }
 
 const float Engine::GetElapsedTimeAsSeconds()

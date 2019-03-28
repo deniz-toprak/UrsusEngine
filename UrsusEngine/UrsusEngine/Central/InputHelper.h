@@ -112,15 +112,10 @@ namespace UrsusEngine
 		KeyCount,     ///< Keep last -- the total number of keyboard keys
 	};
 
-	class Input
+	class InputHelper
 	{
 	public:
-		Input();
-		~Input();
-		
-	public:
-		bool IsKeyPressed(Key key);
+		static bool IsKeyPressed(Key key);
 
-	private:
 	};
 }
