@@ -3,17 +3,16 @@
 
 using namespace UrsusEngine;
 
-Sprite::Sprite(sf::Texture* texture)
+Sprite::Sprite(std::shared_ptr<sf::Texture> texture)
 {
 	//Dereference pointer
-	m_Sprite = new sf::Sprite(*texture);
+	m_Sprite = std::make_shared<sf::Sprite>(*texture);
 	sf::Vector2f origin = sf::Vector2f(texture->getSize().x /2, texture->getSize().y /2);
 	m_Sprite->setOrigin(origin);
 }
 
 Sprite::~Sprite()
 {
-	delete m_Sprite;
 }
 
 void Sprite::Move(const float X, const float Y)
@@ -32,10 +31,10 @@ void Sprite::SetRotation(const float Rot)
 	m_Sprite->setRotation(Rot);
 }
 
-const bool Sprite::IsCollidingWith(Sprite* otherSprite)
+const bool Sprite::IsCollidingWith(std::shared_ptr<Sprite> otherSprite)
 {
 	//Get SFML sprite for it's intersection methods
-	const sf::Sprite* sfmlSprite = otherSprite->GetSprite();
+	const std::shared_ptr<sf::Sprite> sfmlSprite = otherSprite->GetSprite();
 	//Get bounds of other sprite and this sprite
 	sf::FloatRect otherRect = sfmlSprite->getGlobalBounds();
 	sf::FloatRect thisRect = m_Sprite->getGlobalBounds();

@@ -1,6 +1,7 @@
 #pragma once
 #include <map>
 #include <cstring>
+#include <memory>
 
 //forward declare needed sf classes
 namespace sf
@@ -26,9 +27,9 @@ namespace UrsusEngine
 		TextureManager& operator=(const TextureManager&) = delete; // delete copy operator
 
 	public:
-		sf::Texture* GetTexture(std::string texturePath);
+		std::shared_ptr<sf::Texture> GetTexture(std::string texturePath);
 
 	private:
-		std::map<std::string, sf::Texture*> m_Textures;
+		std::map<std::string, std::shared_ptr<sf::Texture>> m_Textures;
 	};
 }

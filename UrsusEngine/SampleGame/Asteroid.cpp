@@ -2,7 +2,7 @@
 #include <random>
 #include <ctime>
 
-Asteroid::Asteroid(UrsusEngine::Sprite* sprite, const float max_X, const float max_Y)
+Asteroid::Asteroid(std::shared_ptr<UrsusEngine::Sprite> sprite, const float max_X, const float max_Y)
 {
 	m_Sprite = sprite;
 	m_Max_X = max_X;

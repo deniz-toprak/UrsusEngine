@@ -5,7 +5,7 @@
 class Asteroid
 {
 public:
-	Asteroid(UrsusEngine::Sprite* sprite, const float max_X, const float max_Y);
+	Asteroid(std::shared_ptr<UrsusEngine::Sprite> sprite, const float max_X, const float max_Y);
 	~Asteroid();
 
 	//Methods
@@ -15,7 +15,7 @@ public:
 	void SetRotation(const float Rotation);
 	void Update(const float dt);
 
-	UrsusEngine::Sprite* GetSprite() { return m_Sprite; }
+	std::shared_ptr<UrsusEngine::Sprite> GetSprite() { return m_Sprite; }
 
 private:
 	void CalculateRotation(const float dt);
@@ -24,7 +24,7 @@ private:
 	//Members
 private:
 	//Player sprite
-	UrsusEngine::Sprite* m_Sprite;
+	std::shared_ptr<UrsusEngine::Sprite> m_Sprite;
 	//Velocity of asteroid
 	float m_Velocity_X = 0.f;
 	float m_Velocity_Y = 0.f;

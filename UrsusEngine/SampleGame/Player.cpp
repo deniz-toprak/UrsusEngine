@@ -1,7 +1,7 @@
 #include "Player.h"
 #include <algorithm>
 
-Player::Player(UrsusEngine::Sprite* sprite, const float max_X, const float max_Y)
+Player::Player(std::shared_ptr<UrsusEngine::Sprite> sprite, const float max_X, const float max_Y)
 {
 	m_Sprite = sprite;
 	m_Max_X = max_X;
@@ -40,7 +40,7 @@ void Player::SetVelocity(const float X, const float Y)
 	m_Velocity_Y = Y;
 }
 
-void Player::HandleInput(UrsusEngine::Engine* engine)
+void Player::HandleInput(std::shared_ptr<UrsusEngine::Engine> engine)
 {
 	bool isDPressed = engine->IsKeyPressed(UrsusEngine::Key::D);
 	bool isAPressed = engine->IsKeyPressed(UrsusEngine::Key::A);

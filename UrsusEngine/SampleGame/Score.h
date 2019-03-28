@@ -5,7 +5,7 @@ class Score
 {
 
 public:
-	Score(UrsusEngine::Text* text);
+	Score(std::shared_ptr<UrsusEngine::Text> text);
 	~Score();
 
 	//Methods
@@ -14,11 +14,11 @@ public:
 	void SetScore(const int Score);
 	void AddScore(const int AddToScore);
 
-	UrsusEngine::Text* GetText() { return m_Text; }
+	std::shared_ptr<UrsusEngine::Text> GetText() { return m_Text; }
 
 	//Members
 private:
-	UrsusEngine::Text* m_Text;
+	std::shared_ptr<UrsusEngine::Text> m_Text;
 
 	float m_X;
 	float m_Y;

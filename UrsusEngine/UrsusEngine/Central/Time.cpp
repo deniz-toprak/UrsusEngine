@@ -5,14 +5,14 @@ using namespace UrsusEngine;
 
 Time::Time()
 {
-	m_Clock = new sf::Clock();
+	m_Clock = std::make_unique<sf::Clock>();
 	m_DeltaTime = 0.f;
 	
 }
 
 Time::~Time()
 {
-	delete m_Clock;
+
 }
 
 void Time::Restart()

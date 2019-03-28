@@ -5,7 +5,7 @@
 class Player
 {
 public:
-	Player(UrsusEngine::Sprite* sprite, const float max_X, const float max_Y);
+	Player(std::shared_ptr<UrsusEngine::Sprite> sprite, const float max_X, const float max_Y);
 	~Player();
 
 	//Methods
@@ -13,13 +13,13 @@ public:
 	void SetPosition(const float X, const float Y);
 	void SetRotation(const float Rot);
 	void SetVelocity(const float X, const float Y);
-	void HandleInput(UrsusEngine::Engine* engine);
+	void HandleInput(std::shared_ptr<UrsusEngine::Engine> engine);
 	void Update(const float dt);
 	const bool IsShooting() const { return m_IsShooting; }
 	const float GetX() const { return m_X; }
 	const float GetY() const { return m_Y; }
 	const float GetRotation() const { return m_RotationInDegree; }
-	UrsusEngine::Sprite* GetSprite() { return m_Sprite; }
+	std::shared_ptr<UrsusEngine::Sprite> GetSprite() { return m_Sprite; }
 
 private:
 	void CalculateRotation(const float dt);
@@ -28,7 +28,7 @@ private:
 	//Members
 private:
 	//Player sprite
-	UrsusEngine::Sprite* m_Sprite;
+	std::shared_ptr<UrsusEngine::Sprite> m_Sprite;
 	//Velocity of player
 	float m_Velocity_X = 0.f;
 	float m_Velocity_Y = 0.f;

@@ -19,26 +19,26 @@ int EngineMain()
 {
 	const int width = 640;
 	const int height = 480;
-	UrsusEngine::Engine *engine = new UrsusEngine::Engine(width, height, "Test", false);
+	std::shared_ptr<UrsusEngine::Engine> engine = std::make_shared<UrsusEngine::Engine>(width, height, "Test", false);
 	
 
 	//Create Player Sprite
 	//Resources located in /bin which are ignored for now in github
-	UrsusEngine::Sprite* playerSprite = engine->CreateSprite("Resources/Asteroid_Graphics/player.png");
-	Player* player = new Player(playerSprite, width, height);
+	std::shared_ptr<UrsusEngine::Sprite> playerSprite = engine->CreateSprite("Resources/Asteroid_Graphics/player.png");
+	std::unique_ptr<Player> player = std::make_unique<Player>(playerSprite, width, height);
 	player->SetPosition(320.f, 200.0f);
 
 	//Bullets for player
-	std::vector<Bullet*> bullets;
+	std::vector<std::shared_ptr<Bullet>> bullets;
 	
 	//Score
-	UrsusEngine::Text* scoreText = engine->CreateText("Resources/Asteroid_Graphics/Hyperspace.otf");
-	Score* score = new Score(scoreText);
+	std::shared_ptr<UrsusEngine::Text> scoreText = engine->CreateText("Resources/Asteroid_Graphics/Hyperspace.otf");
+	std::unique_ptr<Score> score = std::make_unique<Score>(scoreText);
 	score->SetPosition(10.0f, 10.0f);
 	score->SetScore(0);
 
 	//Asteroids
-	std::vector<Asteroid*> asteroids;
+	std::vector<std::shared_ptr<Asteroid>> asteroids;
 	const int asteroidCount = 10;
 	const int maxVelocity = 50.f;
 	float spawnCD = 0.f;
@@ -49,6 +49,8 @@ int EngineMain()
 	//Set update tick rate to 60 times per second
 	const float dt = 1 / 60.0f;
 	float accumulator = 0.f;
+
+	bool gameEnd = false;
 
 	while (engine->IsRunning())
 	{
@@ -65,7 +67,7 @@ int EngineMain()
 		while (accumulator >= dt)
 		{
 			//If the player is dead we can just exit this loop!
-			if (playerSprite == nullptr)
+			if (gameEnd)
 			{
 				break;
 			}
@@ -77,8 +79,8 @@ int EngineMain()
 			//Check for bullet input
 			if (player->IsShooting())
 			{
-				UrsusEngine::Sprite* bulletSprite = engine->CreateSprite("Resources/Asteroid_Graphics/bullet.png");
-				Bullet* bullet = new Bullet(bulletSprite, width, height);
+				std::shared_ptr<UrsusEngine::Sprite> bulletSprite = engine->CreateSprite("Resources/Asteroid_Graphics/bullet.png");
+				std::shared_ptr<Bullet> bullet = std::make_shared<Bullet>(bulletSprite, width, height);
 				bullet->Init(player->GetX(), player->GetY(), player->GetRotation());
 				bullets.push_back(bullet);
 			}
@@ -86,8 +88,8 @@ int EngineMain()
 			//If asteroid spawn time run out then try to spawn asteroid
 			if (spawnCD <= 0.f && asteroids.size() < asteroidCount)
 			{
-				UrsusEngine::Sprite* asteroidSprite = engine->CreateSprite("Resources/Asteroid_Graphics/asteroid1.png");
-				Asteroid* asteroid = new Asteroid(asteroidSprite, width, height);
+				std::shared_ptr<UrsusEngine::Sprite> asteroidSprite = engine->CreateSprite("Resources/Asteroid_Graphics/asteroid1.png");
+				std::shared_ptr<Asteroid> asteroid = std::make_shared<Asteroid>(asteroidSprite, width, height);
 				float x = std::rand() % width;
 				float y = std::rand() % height;
 				float xVelocity = (std::rand() % maxVelocity * 2) - maxVelocity;
@@ -107,8 +109,7 @@ int EngineMain()
 				))
 				{
 					//If created asteroid does overlap with player then delete it
-					engine->DestroySprite(asteroid->GetSprite());
-					delete asteroid;
+					asteroid = nullptr;
 				}
 				else
 				{
@@ -125,22 +126,22 @@ int EngineMain()
 
 
 			//Iterate through all bullets for collision and lifetime check
-			for (std::vector<Bullet*>::iterator bulletIterator = bullets.begin(); bulletIterator != bullets.end();)
+			for (std::vector<std::shared_ptr<Bullet>>::iterator bulletIterator = bullets.begin(); bulletIterator != bullets.end();)
 			{
-				Bullet* bullet = (*bulletIterator);
+				std::shared_ptr<Bullet> bullet = (*bulletIterator);
 				bullet->Update(dt);
 
 				//OnCollision and OnLifeTimeOver bullets gets destroyed
 				//therefore we describe it with the same logical reaction
 				bool collide = bullet->IsLifeTimeOver();
-				for (std::vector<Asteroid*>::iterator asteroidIterator = asteroids.begin(); asteroidIterator != asteroids.end();)
+				for (std::vector<std::shared_ptr<Asteroid>>::iterator asteroidIterator = asteroids.begin(); asteroidIterator != asteroids.end();)
 				{
-					Asteroid* asteroid = (*asteroidIterator);
+					std::shared_ptr<Asteroid> asteroid = (*asteroidIterator);
 					if (bullet->GetSprite()->IsCollidingWith(asteroid->GetSprite()))
 					{
-						engine->DestroySprite(asteroid->GetSprite());
+						
 						asteroidIterator = asteroids.erase(asteroidIterator);
-						delete asteroid;
+						asteroid = nullptr;
 						collide = true;
 						//Add score
 						score->AddScore(10);
@@ -152,9 +153,8 @@ int EngineMain()
 
 				if (collide)
 				{
-					engine->DestroySprite(bullet->GetSprite());
 					bulletIterator = bullets.erase(bulletIterator);
-					delete bullet;
+					bullet = nullptr;
 				}
 				else
 				{
@@ -163,14 +163,12 @@ int EngineMain()
 			}
 
 			//Update all asteroids
-			for (Asteroid* asteroid : asteroids)
+			for (std::shared_ptr<Asteroid> asteroid : asteroids)
 			{
 				asteroid->Update(dt);
 				if (player != nullptr && player->GetSprite()->IsCollidingWith(asteroid->GetSprite()))
 				{
 					//Destroy player
-					engine->DestroySprite(player->GetSprite());
-					delete player;
 					player = nullptr;
 					playerSprite = nullptr;
 					//display defeat
@@ -178,6 +176,7 @@ int EngineMain()
 					scoreText->SetColour(255, 0, 0);
 					scoreText->SetSize(48);
 					scoreText->SetText("You are dead!");
+					gameEnd = true;
 				}
 			}
 
@@ -191,24 +190,20 @@ int EngineMain()
 	//Destroy the player
 	if (player != nullptr)
 	{
-		engine->DestroySprite(player->GetSprite());
-		delete player;
 		player = nullptr;
 	}
 	//Destroy asteroids
-	for (Asteroid* asteroid : asteroids)
+	for (std::shared_ptr<Asteroid> asteroid : asteroids)
 	{
-		engine->DestroySprite(asteroid->GetSprite());
-		delete asteroid;
+		asteroid = nullptr;
 	}
 	//Destory bullets
-	for (Bullet* bullet : bullets)
+	for (std::shared_ptr<Bullet> bullet : bullets)
 	{
-		engine->DestroySprite(bullet->GetSprite());
-		delete bullet;
+		bullet = nullptr;
 	}
-	engine->DestroyText(scoreText);
+	scoreText = nullptr;
 	//nothing
-	delete engine;
+	engine = nullptr;
 	return 0;
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <memory>
 #include "Sprite.h"
 #include "Text.h"
 
@@ -21,10 +22,10 @@ namespace UrsusEngine
 		bool Update();
 		void BeginDraw();
 		void EndDraw();
-		void Draw(Sprite* sprite);
-		void Draw(Text* text);
+		void Draw(std::shared_ptr<Sprite> sprite);
+		void Draw(std::shared_ptr<Text> text);
 
 	private:
-		sf::RenderWindow* m_Window;
+		std::unique_ptr<sf::RenderWindow> m_Window;
 	};
 }

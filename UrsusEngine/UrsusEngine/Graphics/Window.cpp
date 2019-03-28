@@ -13,12 +13,11 @@ Window::Window(const int width, const int height, const std::string title, const
 	//Ternary operator for fullscreen
 	int style = fullscreen ? sf::Style::Fullscreen : sf::Style::Default;
 	//create instance of RenderWindow
-	m_Window = new sf::RenderWindow(mode, title, style);
+	m_Window = std::make_unique<sf::RenderWindow>(mode, title, style);
 }
 
 Window::~Window()
 {
-	delete m_Window;
 }
 
 bool Window::Update()
@@ -52,12 +51,12 @@ void Window::EndDraw()
 	m_Window->display();
 }
 
-void Window::Draw(Sprite* sprite)
+void Window::Draw(std::shared_ptr<Sprite> sprite)
 {
 	m_Window->draw(*sprite->GetSprite());
 }
 
-void Window::Draw(Text* text)
+void Window::Draw(std::shared_ptr<Text> text)
 {
 	m_Window->draw(*text->GetText());
 }

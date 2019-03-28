@@ -5,16 +5,14 @@ using namespace UrsusEngine;
 
 Text::Text(const std::string fontURL)
 {
-	m_Font = new sf::Font();
+	m_Font = std::make_shared<sf::Font>();
 	m_Font->loadFromFile(fontURL);
-	m_Text = new sf::Text();
+	m_Text = std::make_shared<sf::Text>();
 	m_Text->setFont(*m_Font);
 }
 
 Text::~Text()
 {
-	delete m_Text;
-	delete m_Font;
 }
 
 //Set text

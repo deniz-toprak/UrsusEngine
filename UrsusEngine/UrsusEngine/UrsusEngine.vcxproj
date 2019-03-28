@@ -167,18 +167,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Central\engine.cpp" />
-    <ClCompile Include="Central\Input.cpp" />
+    <ClCompile Include="Central\InputHelper.cpp" />
     <ClCompile Include="Central\Time.cpp" />
     <ClCompile Include="Graphics\Sprite.cpp" />
     <ClCompile Include="Graphics\Text.cpp" />
+    <ClCompile Include="Graphics\TextureManager.cpp" />
     <ClCompile Include="Graphics\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Central\engine.h" />
-    <ClInclude Include="Central\Input.h" />
+    <ClInclude Include="Central\InputHelper.h" />
     <ClInclude Include="Central\Time.h" />
     <ClInclude Include="Graphics\Sprite.h" />
     <ClInclude Include="Graphics\Text.h" />
+    <ClInclude Include="Graphics\TextureManager.h" />
     <ClInclude Include="Graphics\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

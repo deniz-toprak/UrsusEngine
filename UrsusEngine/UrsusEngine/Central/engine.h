@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 #include "../Graphics/Window.h"
 #include "../Graphics/Sprite.h"
 #include "../Graphics/Text.h"
@@ -24,15 +25,8 @@ namespace UrsusEngine
 
 		//Graphics & Window
 		void Draw();
-
-		//Sprite handling
-		Sprite* CreateSprite(const char* url);
-		void DestroySprite(Sprite* sprite);
-
-		//Text handling
-		Text* CreateText(const char* url);
-		void DestroyText(Text* text);
-
+		std::shared_ptr<Sprite> CreateSprite(const char* url);
+		std::shared_ptr<Text> CreateText(const char* url);
 
 		//Input handling
 		bool IsKeyPressed(Key key);
@@ -43,14 +37,14 @@ namespace UrsusEngine
 	private:
 		//Window handling
 		bool m_IsRunning;
-		Window* m_Window;
+		std::unique_ptr<Window> m_Window;
 	
 
 		//Graphics
-		std::vector<Sprite*> m_Sprites;
-		std::vector<Text*> m_Texts;
+		std::vector<std::shared_ptr<Sprite>> m_Sprites;
+		std::vector<std::shared_ptr<Text>> m_Texts;
 
 		//Time handling
-		Time* m_Time;
+		std::unique_ptr<Time> m_Time;
 	};
 }

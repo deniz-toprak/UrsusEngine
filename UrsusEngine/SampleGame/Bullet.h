@@ -4,7 +4,7 @@
 class Bullet
 {
 public:
-	Bullet(UrsusEngine::Sprite* sprite, const float max_X, const float max_Y);
+	Bullet(std::shared_ptr<UrsusEngine::Sprite> sprite, const float max_X, const float max_Y);
 	~Bullet();
 
 	//Methods
@@ -16,7 +16,7 @@ public:
 	void SetRotation(const float Rotation);
 	void Update(const float dt);
 
-	UrsusEngine::Sprite* GetSprite() { return m_Sprite; }
+	std::shared_ptr<UrsusEngine::Sprite> GetSprite() { return m_Sprite; }
 
 	const bool IsLifeTimeOver() { return m_LifeTimeInSeconds <= 0.f; }
 
@@ -26,7 +26,7 @@ private:
 	//Members
 private:
 	//Player sprite
-	UrsusEngine::Sprite* m_Sprite;
+	std::shared_ptr<UrsusEngine::Sprite> m_Sprite;
 	//Velocity of Bullet
 	float m_Velocity_X = 0.f;
 	float m_Velocity_Y = 0.f;

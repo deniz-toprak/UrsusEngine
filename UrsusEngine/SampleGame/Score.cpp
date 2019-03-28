@@ -1,6 +1,6 @@
 #include "Score.h"
 
-Score::Score(UrsusEngine::Text* text)
+Score::Score(std::shared_ptr<UrsusEngine::Text> text)
 {
 	m_Text = text;
 	m_Text->SetSize(24);
@@ -10,7 +10,6 @@ Score::Score(UrsusEngine::Text* text)
 
 Score::~Score()
 {
-	m_Text = nullptr;
 }
 
 void Score::SetPosition(const float X, const float Y)

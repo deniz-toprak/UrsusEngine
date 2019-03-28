@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <memory>
 
 namespace sf
 {
@@ -28,15 +29,15 @@ namespace UrsusEngine
 		void SetColour(const unsigned char red, const unsigned char green, const unsigned char blue, const unsigned char alpha = 255);
 		
 		//Get Text for render
-		const sf::Text* GetText() { return m_Text; }
+		const std::shared_ptr<sf::Text> GetText() { return m_Text; }
 
 		//Set Text position
 		void SetPosition(const float X, const float Y);
 
 
 	private:
-		sf::Text* m_Text;
-		sf::Font* m_Font;
+		std::shared_ptr<sf::Text> m_Text;
+		std::shared_ptr<sf::Font> m_Font;
 
 	};
 }

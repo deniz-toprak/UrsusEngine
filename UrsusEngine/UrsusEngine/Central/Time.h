@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 
 namespace sf
 {
@@ -18,7 +19,7 @@ namespace UrsusEngine
 		const float GetElapsedTimeAsSeconds();
 
 	private:
-		sf::Clock* m_Clock;
+		std::unique_ptr<sf::Clock> m_Clock;
 		float m_DeltaTime;
 	};
 }

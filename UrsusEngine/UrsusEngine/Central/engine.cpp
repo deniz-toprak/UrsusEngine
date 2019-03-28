@@ -7,15 +7,13 @@ using namespace UrsusEngine;
 Engine::Engine(const int width, const int height, const std::string title, const bool fullscreen)
 {
 	m_IsRunning = true;
-	m_Window = new Window(width, height, title, fullscreen);
-	m_Time = new Time();
+	m_Window = std::make_unique<Window>(width, height, title, fullscreen);
+	m_Time =  std::make_unique<Time>();
 }
 
 Engine::~Engine()
 {
 	m_IsRunning = false;
-	delete m_Window;
-	delete m_Time;
 }
 
 void Engine::Update()
@@ -32,69 +30,52 @@ void Engine::Update()
 void Engine::Draw()
 {
 	m_Window->BeginDraw();
-	for (Sprite* sprite : m_Sprites)
+
+	std::vector<std::shared_ptr<Sprite>>::iterator spriteItr = m_Sprites.begin();
+	std::vector<std::shared_ptr<Text>>::iterator textItr = m_Texts.begin();
+
+	while (spriteItr != m_Sprites.end())
 	{
-		m_Window->Draw(sprite);
+		if ((*spriteItr).unique())
+		{
+			spriteItr = m_Sprites.erase(spriteItr);
+		}
+		else
+		{
+			m_Window->Draw((*spriteItr));
+			++spriteItr;
+		}
 	}
 
-	for (Text* text : m_Texts)
+	while (textItr != m_Texts.end())
 	{
-		m_Window->Draw(text);
+		if ((*textItr).unique())
+		{
+			textItr = m_Texts.erase(textItr);
+		}
+		else
+		{
+			m_Window->Draw((*textItr));
+			++textItr;
+		}
 	}
+
 	m_Window->EndDraw();
 }
 
-Sprite* Engine::CreateSprite(const char* url)
+std::shared_ptr<Sprite> Engine::CreateSprite(const char* url)
 {
-	sf::Texture* texture = TextureManager::GetInstance().GetTexture(url);
-	Sprite* sprite = new Sprite(texture);
+	std::shared_ptr<sf::Texture> texture = TextureManager::GetInstance().GetTexture(url);
+	std::shared_ptr<Sprite> sprite = std::make_shared<Sprite>(texture);
 	m_Sprites.push_back(sprite);
 	return sprite;
 }
 
-void Engine::DestroySprite(Sprite* sprite)
+std::shared_ptr<Text> Engine::CreateText(const char* url)
 {
-	if (sprite == nullptr)
-	{
-		return;
-	}
-	//Try find sprite
-	std::vector<Sprite*>::iterator spriteItr = std::find(m_Sprites.begin(), m_Sprites.end(), sprite);
-	//Sprite has not been found, return
-	if (spriteItr == m_Sprites.end())
-	{
-		return;
-	}
-
-	//remove sprite
-	m_Sprites.erase(spriteItr);
-	delete sprite;
-}
-
-Text* Engine::CreateText(const char* url)
-{
-	Text* text = new Text(url);
+	std::shared_ptr<Text> text = std::make_shared<Text>(url);
 	m_Texts.push_back(text);
 	return text;
-}
-
-void Engine::DestroyText(Text* text)
-{
-	if (text == nullptr)
-	{
-		return;
-	}
-	//Try find text
-	std::vector<Text*>::iterator textItr = std::find(m_Texts.begin(), m_Texts.end(), text);
-	//Sprite has not been found, return
-	if (textItr == m_Texts.end())
-	{
-		return;
-	}
-
-	//remove sprite
-	m_Texts.erase(textItr);
-	delete text;
 }
 
 bool Engine::IsKeyPressed(Key key)
