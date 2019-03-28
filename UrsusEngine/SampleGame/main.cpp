@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Asteroid.h"
 #include "Bullet.h"
+#include "Score.h"
 
 
 #ifdef  _DEBUG
@@ -31,12 +32,10 @@ int EngineMain()
 	std::vector<Bullet*> bullets;
 	
 	//Score
-	int playerScore = 0;
 	UrsusEngine::Text* scoreText = engine->CreateText("Resources/Asteroid_Graphics/Hyperspace.otf");
-	scoreText->SetPosition(10.0f, 10.0f);
-	scoreText->SetColour(255, 255, 255);
-	scoreText->SetSize(24);
-	scoreText->SetText("Score: " + std::to_string(0));
+	Score* score = new Score(scoreText);
+	score->SetPosition(10.0f, 10.0f);
+	score->SetScore(0);
 
 	//Asteroids
 	std::vector<Asteroid*> asteroids;
@@ -143,6 +142,8 @@ int EngineMain()
 						asteroidIterator = asteroids.erase(asteroidIterator);
 						delete asteroid;
 						collide = true;
+						//Add score
+						score->AddScore(10);
 						break;
 					}
 					//If the asteroid is destroyed we break already, so it's save to always call it here
@@ -176,7 +177,7 @@ int EngineMain()
 					scoreText->SetPosition(150.f, 100.f);
 					scoreText->SetColour(255, 0, 0);
 					scoreText->SetSize(48);
-					scoreText->SetText("You are dead!\nYour score: " + std::to_string(playerScore));
+					scoreText->SetText("You are dead!");
 				}
 			}
 
