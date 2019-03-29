@@ -173,6 +173,7 @@
     <ClCompile Include="Graphics\Text.cpp" />
     <ClCompile Include="Graphics\TextureManager.cpp" />
     <ClCompile Include="Graphics\Window.cpp" />
+    <ClCompile Include="Patterns\ECS\ISystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Central\engine.h" />
@@ -182,6 +183,9 @@
     <ClInclude Include="Graphics\Text.h" />
     <ClInclude Include="Graphics\TextureManager.h" />
     <ClInclude Include="Graphics\Window.h" />
+    <ClInclude Include="Patterns\ECS\Entity.h" />
+    <ClInclude Include="Patterns\ECS\IComponent.h" />
+    <ClInclude Include="Patterns\ECS\ISystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
