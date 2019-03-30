@@ -169,6 +169,7 @@
     <ClCompile Include="Central\engine.cpp" />
     <ClCompile Include="Central\InputHelper.cpp" />
     <ClCompile Include="Central\Time.cpp" />
+    <ClCompile Include="Graphics\SpriteComponent.cpp" />
     <ClCompile Include="Graphics\Sprite.cpp" />
     <ClCompile Include="Graphics\Text.cpp" />
     <ClCompile Include="Graphics\TextureManager.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="Central\engine.h" />
     <ClInclude Include="Central\InputHelper.h" />
     <ClInclude Include="Central\Time.h" />
+    <ClInclude Include="Graphics\SpriteComponent.h" />
     <ClInclude Include="Graphics\Sprite.h" />
     <ClInclude Include="Graphics\Text.h" />
     <ClInclude Include="Graphics\TextureManager.h" />

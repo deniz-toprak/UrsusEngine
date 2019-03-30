@@ -10,15 +10,12 @@ TextureManager::TextureManager()
 
 TextureManager::~TextureManager()
 {
-	for (auto& textureItr : m_Textures)
-	{
-		textureItr.second = nullptr;
-	}
 	m_Textures.clear();
 }
 
-std::shared_ptr<sf::Texture> TextureManager::GetTexture(std::string texturePath)
+std::shared_ptr<sf::Texture>& TextureManager::GetTexture(std::string texturePath)
 {
+	//try find texture in map
 	if (m_Textures.find(texturePath) == m_Textures.end())
 	{
 		std::shared_ptr<sf::Texture> texture = std::make_shared<sf::Texture>();
@@ -28,3 +25,4 @@ std::shared_ptr<sf::Texture> TextureManager::GetTexture(std::string texturePath)
 	}
 	return m_Textures.find(texturePath)->second;
 }
+

@@ -27,9 +27,10 @@ namespace UrsusEngine
 		TextureManager& operator=(const TextureManager&) = delete; // delete copy operator
 
 	public:
-		std::shared_ptr<sf::Texture> GetTexture(std::string texturePath);
+		std::shared_ptr<sf::Texture>& GetTexture(std::string texturePath);
 
 	private:
 		std::map<std::string, std::shared_ptr<sf::Texture>> m_Textures;
+
 	};
 }
