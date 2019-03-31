@@ -1,6 +1,7 @@
 #include "engine.h"
 #include "../Graphics/TextureManager.h"
 #include <algorithm>
+#include "EventManager.h"
 
 using namespace UrsusEngine;
 
@@ -42,6 +43,8 @@ void Engine::Update()
 		{
 			system->Update(this, dt);
 		}
+		//Call update on event manager
+		EventManager::GetInstance().Update();
 		//at the end of the update, decrement accumulator
 		m_AccumulatedTime -= dt;
 	}

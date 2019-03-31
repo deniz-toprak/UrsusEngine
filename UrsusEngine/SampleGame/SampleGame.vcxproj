@@ -176,6 +176,7 @@
     <ClInclude Include="PlayerComponent.h" />
     <ClInclude Include="PlayerSystem.h" />
     <ClInclude Include="ScoreComponent.h" />
+    <ClInclude Include="ScoreEvent.h" />
     <ClInclude Include="ScoreSystem.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>

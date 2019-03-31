@@ -2,6 +2,8 @@
 #include "../UrsusEngine/Central/engine.h"
 #include "BulletComponent.h"
 #include "PhysicComponent.h"
+#include "ScoreEvent.h"
+
 
 BulletSystem::BulletSystem()
 {
@@ -67,6 +69,11 @@ bool BulletSystem::UpdateSingleEntity(UrsusEngine::Engine* engine, std::shared_p
 	std::shared_ptr<UrsusEngine::ECS::Entity>& firstCollision = collisions[0];
 	//delete
 	engine->RemoveEntity(firstCollision);
+
+	//throw score event
+	std::shared_ptr<ScoreEvent> event = std::make_shared<ScoreEvent>();
+	event->Score = 10;
+	UrsusEngine::EventManager::GetInstance().PushEvent(event);
 	return false;
 }
 
