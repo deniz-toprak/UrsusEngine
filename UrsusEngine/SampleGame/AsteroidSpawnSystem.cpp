@@ -58,10 +58,7 @@ void AsteroidSpawnSystem::Update(UrsusEngine::Engine* engine, float dt)
 	asteroidSprite->SetRotation(rotation);
 	asteroidPhysic->SetVelocity(xVel, yVel);
 	asteroidPhysic->SetDamping(1.0f);
-	int asteroidCollisionFlag = 0;
-	asteroidCollisionFlag |= 1 << 0;
-	asteroidCollisionFlag |= 1 << 1;
-	asteroidPhysic->SetCollisionFlag(asteroidCollisionFlag);
+	asteroidPhysic->SetCollisionFlag(AsteroidCollisionFlag);
 	engine->AddEntity(asteroidEntity);
 	//Forget spawn protection for player as we gonna throw away this game anyway in
 	//later commits for another smaple game

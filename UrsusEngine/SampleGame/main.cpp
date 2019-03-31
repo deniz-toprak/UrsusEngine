@@ -6,6 +6,9 @@
 #include "PhysicComponent.h"
 #include "PhysicSystem.h"
 #include "AsteroidSpawnSystem.h"
+#include "BulletSystem.h"
+#include "PlayerComponent.h"
+#include "PlayerSystem.h"
 
 
 
@@ -17,8 +20,6 @@
 
 int EngineMain()
 {
-	int AsteroidCollisionFlag = 0;
-	AsteroidCollisionFlag |= 1 << 0;
 	//Window dimension
 	const int width = 640;
 	const int height = 480;
@@ -37,16 +38,28 @@ int EngineMain()
 	asteroidSystem->SetMaxVelocity(50);
 	asteroidSystem->SetSpawnCooldown(0.25f);
 	engine->AddSystem(asteroidSystem);
+
+	//Create Bullet system
+	std::shared_ptr<BulletSystem> bulletSystem = std::make_shared<BulletSystem>();
+	engine->AddSystem(bulletSystem);
+
+	//Create Player system
+	std::shared_ptr<PlayerSystem> playerSystem = std::make_shared<PlayerSystem>();
+	engine->AddSystem(playerSystem);
 	
 	//Create Player
 	std::shared_ptr<UrsusEngine::ECS::Entity> playerEntity = std::make_shared<UrsusEngine::ECS::Entity>();
 	std::shared_ptr<UrsusEngine::ECS::SpriteComponent> playerSprite = playerEntity->AddComponent<UrsusEngine::ECS::SpriteComponent>();
 	std::shared_ptr<PhysicComponent> playerPhysic = playerEntity->AddComponent<PhysicComponent>();
+	std::shared_ptr<PlayerComponent> playerComp = playerEntity->AddComponent<PlayerComponent>();
+	playerComp->SetSpeedPerSecond(10.f);
+	playerComp->SetRotationPerSecond(200.f);
+	playerComp->SetBulletSpeedPerSecond(300.f);
+	playerComp->SetMaxBulletSpawnCooldown(0.2f);
 
 	playerSprite->CreateSprite("Resources/Asteroid_Graphics/player.png");
 	playerSprite->SetPosition(width / 2, height / 2);
-	playerPhysic->SetVelocity(100.f, 0.f);
-	playerPhysic->SetDamping(0.998f);
+	playerPhysic->SetDamping(0.98f);
 	playerPhysic->SetTargetFlag(AsteroidCollisionFlag);
 	engine->AddEntity(playerEntity);
 	

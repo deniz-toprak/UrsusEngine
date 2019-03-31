@@ -157,10 +157,14 @@
     <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="AsteroidSpawnSystem.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="BulletComponent.cpp" />
+    <ClCompile Include="BulletSystem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PhysicComponent.cpp" />
     <ClCompile Include="PhysicSystem.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerComponent.cpp" />
+    <ClCompile Include="PlayerSystem.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
@@ -169,9 +173,13 @@
     <ClInclude Include="AsteroidComponent.h" />
     <ClInclude Include="AsteroidSpawnSystem.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="BulletComponent.h" />
+    <ClInclude Include="BulletSystem.h" />
     <ClInclude Include="PhysicComponent.h" />
     <ClInclude Include="PhysicSystem.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerComponent.h" />
+    <ClInclude Include="PlayerSystem.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
