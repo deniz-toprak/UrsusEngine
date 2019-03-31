@@ -3,6 +3,8 @@
 #include "../UrsusEngine/Patterns/ECS/Entity.h"
 #include "../UrsusEngine/Graphics/SpriteComponent.h"
 #include "PhysicComponent.h"
+#include "../UrsusEngine/Central/LevelComponent.h"
+#include "../UrsusEngine/Central/EngineAssert.h"
 
 PhysicSystem::PhysicSystem()
 {
@@ -23,6 +25,12 @@ void PhysicSystem::SetBoundaries(const float max_X, const float max_Y)
 
 bool PhysicSystem::DoesEntityMatch(std::shared_ptr<UrsusEngine::ECS::Entity> entity)
 {
+	if (entity->HasComponent<UrsusEngine::LevelComponent>())
+	{
+		m_LevelEntity = entity;
+		return false;
+	}
+
 	if (entity->HasComponent<UrsusEngine::ECS::SpriteComponent>() && entity->HasComponent<PhysicComponent>())
 	{
 		return true;
@@ -77,26 +85,17 @@ void inline PhysicSystem::UpdateSingleEntityPosition(std::shared_ptr<UrsusEngine
 
 	X += Vel_X * dt;
 	Y += Vel_Y * dt;
-
-	if (X < 0)
+	
+	std::shared_ptr<UrsusEngine::LevelComponent> levelComp = m_LevelEntity->GetComponent<UrsusEngine::LevelComponent>();
+	unsigned int width = 0;
+	unsigned int height = 0;
+	levelComp->GetTileSize(width, height);
+	if (levelComp->IsWalkable(X, Y, width, height))
 	{
-		X = X + m_Max_X;
-	}
-	else if (X > m_Max_X)
-	{
-		X = X - m_Max_X;
-	}
-
-	if (Y < 0)
-	{
-		Y = Y + m_Max_Y;
-	}
-	else if (Y > m_Max_Y)
-	{
-		Y = Y - m_Max_Y;
+		spriteComp->SetPosition(X, Y);
 	}
 
-	spriteComp->SetPosition(X, Y);
+	//spriteComp->SetPosition(X, Y);
 }
 
 void inline PhysicSystem::UpdateSingleEntityCollision(std::shared_ptr<UrsusEngine::ECS::Entity> entity, float dt)

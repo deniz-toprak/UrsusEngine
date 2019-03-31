@@ -33,6 +33,8 @@ namespace UrsusEngine
 			void GetPosition(float& X, float& Y);
 			//Get Rotation
 			void GetRotation(float& RotationInDegree);
+			//
+			void GetSize(unsigned int& Width, unsigned int& Height);
 
 			//Collision check with other sprite
 			const bool IsCollidingWith(std::shared_ptr<SpriteComponent> otherSprite);

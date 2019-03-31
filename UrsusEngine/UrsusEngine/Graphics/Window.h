@@ -9,6 +9,8 @@ namespace sf
 	class RenderWindow;
 	class Sprite;
 	class Text;
+	class Texture;
+	class VertexArray;
 }
 
 namespace UrsusEngine
@@ -25,6 +27,7 @@ namespace UrsusEngine
 		void EndDraw();
 		void Draw(const std::shared_ptr<sf::Sprite>& sprite);
 		void Draw(const std::shared_ptr<sf::Text>& text);
+		void Draw(const sf::VertexArray* vertexArray, const std::shared_ptr<sf::Texture> texture);
 		const std::shared_ptr<sf::RenderWindow>& GetWindow() { return m_Window; }
 
 	private:

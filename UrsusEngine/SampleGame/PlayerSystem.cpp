@@ -83,32 +83,30 @@ bool PlayerSystem::UpdateEntity(UrsusEngine::Engine* engine, std::shared_ptr<Urs
 	spriteComp->GetRotation(rotationInDegree);
 	spriteComp->GetPosition(player_X, player_Y);
 
-	//Update rotation
-	bool Accelerate = engine->IsKeyPressed(UrsusEngine::Key::W);
-	bool turnRight = engine->IsKeyPressed(UrsusEngine::Key::D);
-	bool turnLeft = engine->IsKeyPressed(UrsusEngine::Key::A);
-	
-	if (turnLeft ^ turnRight)
-	{
-		if (turnLeft) { rotationInDegree -= rotationPerSecond * dt; }
-		if (turnRight) { rotationInDegree += rotationPerSecond * dt; }
-	}
+	float cursorX, cursorY = 0.f;
+	engine->GetCursorPosition(cursorX, cursorY);
+	float rotationInRadians = std::atan2(cursorY - player_Y, cursorX - player_X);
+	//calculate rotation in radians
+	rotationInDegree = rotationInRadians / PI * 180.0f;
+	//Set rotation
 	spriteComp->SetRotation(rotationInDegree);
-
-
 	//Update velocity
-	float x = 0.f;
-	float y = 0.f;
-	float rotation = (rotationInDegree + 90.f) * PI / 180.f;
-	if (Accelerate)
+	if (engine->IsKeyPressed(UrsusEngine::Key::W))
 	{
-		x = sin(rotation)  * speedPerSecond;
-		y = -cos(rotation) * speedPerSecond;
-
+		Vel_Y = -speedPerSecond;
 	}
-
-	Vel_X = Vel_X + x;
-	Vel_Y = Vel_Y + y;
+	else if (engine->IsKeyPressed(UrsusEngine::Key::S))
+	{
+		Vel_Y = speedPerSecond;
+	}
+	if (engine->IsKeyPressed(UrsusEngine::Key::A))
+	{
+		Vel_X = -speedPerSecond;
+	}
+	else if (engine->IsKeyPressed(UrsusEngine::Key::D))
+	{
+		Vel_X = speedPerSecond;
+	}
 
 	physicComp->SetVelocity(Vel_X, Vel_Y);
 
@@ -118,7 +116,7 @@ bool PlayerSystem::UpdateEntity(UrsusEngine::Engine* engine, std::shared_ptr<Urs
 		bulletSpawnCD = std::max(0.f, bulletSpawnCD - dt);
 	}
 
-	if (engine->IsKeyPressed(UrsusEngine::Space) && bulletSpawnCD <= 0.f)
+	if (engine->IsMousePressed(UrsusEngine::MouseLeft) && bulletSpawnCD <= 0.f)
 	{
 		//reset cooldown
 		bulletSpawnCD = maxBulletSpawnCD;

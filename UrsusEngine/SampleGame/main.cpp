@@ -11,6 +11,7 @@
 #include "ScoreSystem.h"
 #include "ScoreComponent.h"
 #include "../UrsusEngine/Graphics/TextComponent.h"
+#include "../UrsusEngine/Central/LevelComponent.h"
 
 
 
@@ -23,8 +24,8 @@
 int EngineMain()
 {
 	//Window dimension
-	const int width = 640;
-	const int height = 480;
+	const int width = 800;
+	const int height = 800;
 	//Create Engine
 	std::shared_ptr<UrsusEngine::Engine> engine = std::make_shared<UrsusEngine::Engine>(width, height, "Test");
 	
@@ -44,31 +45,74 @@ int EngineMain()
 	//Create score
 	std::shared_ptr<ScoreSystem> scoreSystem = std::make_shared<ScoreSystem>();
 	engine->AddSystem(scoreSystem);
+
+	//Create Level
+	std::shared_ptr<UrsusEngine::ECS::Entity> levelEntity = std::make_shared<UrsusEngine::ECS::Entity>();
+	std::shared_ptr<UrsusEngine::LevelComponent>levelComp = levelEntity->AddComponent<UrsusEngine::LevelComponent>();
+
+	const int tileWidth = 50;
+	const int tileHeight = 50;
+	levelComp->CreateTileset("Resources/Zombie/tiles.png", tileWidth, tileHeight);
+
+	const int levelHeight = 12;
+	const int levelWidth = 12;
+	char level[levelHeight * levelWidth] =
+	{
+		3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, //3, 3, 3, 3, 3, 3, 3, 3,
+		3, 2, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, //0, 0, 0, 0, 0, 0, 0, 3,
+		3, 2, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, //0, 0, 0, 0, 0, 0, 0, 3,
+		3, 2, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, //0, 0, 0, 0, 0, 0, 0, 3,
+		3, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, //0, 0, 0, 0, 0, 0, 0, 3,
+		3, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, //0, 0, 0, 0, 0, 0, 0, 3,
+		3, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, //0, 0, 0, 0, 0, 0, 0, 3,
+		3, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, //0, 0, 0, 0, 0, 0, 0, 3,
+		3, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, //0, 0, 0, 0, 0, 0, 0, 3,
+		3, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, //0, 0, 0, 0, 0, 0, 0, 3,
+		3, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, //0, 0, 0, 0, 0, 0, 0, 3,
+		3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, //3, 3, 3, 3, 3, 3, 3, 3,
+	};
+
+	std::vector<Tile> tiles;
+	for (int j = 0; j < levelHeight; ++j)
+	{
+		for (int i = 0; i < levelWidth; ++i)
+		{
+			Tile tile;
+			tile.X = i * tileWidth;
+			tile.Y = j * tileHeight;
+			int idx = i + (j* levelWidth);
+			tile.Sprite = level[idx];
+			tile.IsCollidable = tile.Sprite == 3;
+			tiles.push_back(tile);
+		}
+	}
+	levelComp->SetLevel(tiles, levelHeight, levelWidth);
+	engine->AddEntity(levelEntity);
+
+	//Score Entity
 	std::shared_ptr<UrsusEngine::ECS::Entity> scoreEntity = std::make_shared<UrsusEngine::ECS::Entity>();
 	std::shared_ptr<UrsusEngine::ECS::TextComponent> scoreText = scoreEntity->AddComponent<UrsusEngine::ECS::TextComponent>();
 	std::shared_ptr<ScoreComponent> scoreComp = scoreEntity->AddComponent<ScoreComponent>();
-
-	
 	scoreText->CreateText("Resources/Asteroid_Graphics/Hyperspace.otf");
 	scoreText->SetPosition(10.f, 10.f);
 	scoreText->SetColour(255, 255, 255, 255);
 	scoreText->SetSize(24);
-
 	engine->AddEntity(scoreEntity);
 
-	//Create Player
+	//Player entity
 	std::shared_ptr<UrsusEngine::ECS::Entity> playerEntity = std::make_shared<UrsusEngine::ECS::Entity>();
 	std::shared_ptr<UrsusEngine::ECS::SpriteComponent> playerSprite = playerEntity->AddComponent<UrsusEngine::ECS::SpriteComponent>();
 	std::shared_ptr<PhysicComponent> playerPhysic = playerEntity->AddComponent<PhysicComponent>();
 	std::shared_ptr<PlayerComponent> playerComp = playerEntity->AddComponent<PlayerComponent>();
-	playerComp->SetSpeedPerSecond(10.f);
+	playerComp->SetSpeedPerSecond(1200.f);
 	playerComp->SetRotationPerSecond(200.f);
 	playerComp->SetBulletSpeedPerSecond(300.f);
 	playerComp->SetMaxBulletSpawnCooldown(0.2f);
 
 	playerSprite->CreateSprite("Resources/Asteroid_Graphics/player.png");
 	playerSprite->SetPosition(width / 2, height / 2);
-	playerPhysic->SetDamping(0.98f);
+	playerPhysic->SetVelocity(0.f, 0.f);
+	playerPhysic->SetDamping(0.1f);
 	playerPhysic->SetTargetFlag(AsteroidCollisionFlag);
 	engine->AddEntity(playerEntity);
 	

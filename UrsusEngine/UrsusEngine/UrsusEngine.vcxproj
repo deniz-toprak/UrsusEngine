@@ -169,6 +169,7 @@
     <ClCompile Include="Central\engine.cpp" />
     <ClCompile Include="Central\EventManager.cpp" />
     <ClCompile Include="Central\InputHelper.cpp" />
+    <ClCompile Include="Central\LevelComponent.cpp" />
     <ClCompile Include="Central\Time.cpp" />
     <ClCompile Include="Graphics\RenderSystem.cpp" />
     <ClCompile Include="Graphics\SpriteComponent.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="Central\EngineAssert.h" />
     <ClInclude Include="Central\EventManager.h" />
     <ClInclude Include="Central\InputHelper.h" />
+    <ClInclude Include="Central\LevelComponent.h" />
     <ClInclude Include="Central\Time.h" />
     <ClInclude Include="Graphics\RenderSystem.h" />
     <ClInclude Include="Graphics\SpriteComponent.h" />

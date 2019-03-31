@@ -57,3 +57,8 @@ void Window::Draw(const std::shared_ptr<sf::Text>& text)
 {
 	m_Window->draw(*text);
 }
+
+void Window::Draw(const sf::VertexArray* vertexArray, const std::shared_ptr<sf::Texture> texture)
+{
+	m_Window->draw(*vertexArray, texture.get());
+}

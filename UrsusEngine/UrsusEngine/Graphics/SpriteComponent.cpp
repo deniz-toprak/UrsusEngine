@@ -42,6 +42,13 @@ void SpriteComponent::GetRotation(float& rotationInDegrees)
 	rotationInDegrees = m_Sprite->getRotation();
 }
 
+void SpriteComponent::GetSize(unsigned int& Width, unsigned int& Height)
+{
+	const sf::Texture* texture = m_Sprite->getTexture();
+	Width = texture->getSize().x;
+	Height = texture->getSize().y;
+}
+
 const bool SpriteComponent::IsCollidingWith(std::shared_ptr<SpriteComponent> otherSprite)
 {
 	//Get SFML sprite for it's intersection methods
