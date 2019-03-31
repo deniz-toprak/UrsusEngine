@@ -154,7 +154,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AsteroidSpawnSystem.cpp" />
     <ClCompile Include="BulletComponent.cpp" />
     <ClCompile Include="BulletSystem.cpp" />
     <ClCompile Include="main.cpp" />
@@ -167,8 +166,6 @@
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AsteroidComponent.h" />
-    <ClInclude Include="AsteroidSpawnSystem.h" />
     <ClInclude Include="BulletComponent.h" />
     <ClInclude Include="BulletSystem.h" />
     <ClInclude Include="PhysicComponent.h" />
