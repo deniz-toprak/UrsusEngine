@@ -35,7 +35,7 @@ namespace UrsusEngine
 		//Input handling
 		bool IsKeyPressed(Key key);
 		bool IsMousePressed(MouseButton button);
-		bool GetCursorPosition(float& X, float& Y) const;
+		void GetCursorPosition(float& X, float& Y) const;
 
 		//Time
 		const float GetElapsedTimeAsSeconds();

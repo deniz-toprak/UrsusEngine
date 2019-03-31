@@ -69,7 +69,7 @@ bool Engine::IsMousePressed(MouseButton button)
 	return InputHelper::IsMousePresse(button);
 }
 
-bool Engine::GetCursorPosition(float& X, float& Y) const
+void Engine::GetCursorPosition(float& X, float& Y) const
 {
 	InputHelper::GetCurserPosition(this, X, Y);
 }
