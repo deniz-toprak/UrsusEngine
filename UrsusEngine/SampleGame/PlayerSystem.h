@@ -15,4 +15,9 @@ public:
 
 private:
 	bool inline UpdateEntity(UrsusEngine::Engine* engine, std::shared_ptr<UrsusEngine::ECS::Entity> entity, const float dt);
+
+	private:
+		//Chached view pos values
+		float m_Camera_X = 0.f;
+		float m_Camera_Y = 0.f;
 };

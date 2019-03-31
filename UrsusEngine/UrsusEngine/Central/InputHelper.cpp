@@ -19,7 +19,11 @@ void InputHelper::GetCurserPosition(const Engine* engine, float& X, float& Y)
 	const std::shared_ptr<Window>& window = engine->GetWindow();
 	const std::shared_ptr<sf::RenderWindow>& renderWindow = window->GetWindow();
 	sf::Vector2i position = sf::Mouse::getPosition(*renderWindow);
-	X = position.x;
-	Y = position.y;
+
+	//make relative to view
+	float viewX, viewY = 0.f;
+	window->GetViewPosition(viewX, viewY);
+	X = position.x + viewX;
+	Y = position.y + viewY;
 }
 

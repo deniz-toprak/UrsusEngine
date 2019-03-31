@@ -53,6 +53,7 @@ void PlayerSystem::Update(UrsusEngine::Engine* engine, float dt)
 		}
 		++entityItr;
 	}
+	engine->SetViewCenter(m_Camera_X, m_Camera_Y);
 }
 
 bool PlayerSystem::UpdateEntity(UrsusEngine::Engine* engine, std::shared_ptr<UrsusEngine::ECS::Entity> entity, const float dt)
@@ -82,6 +83,8 @@ bool PlayerSystem::UpdateEntity(UrsusEngine::Engine* engine, std::shared_ptr<Urs
 	//Get spriteComponent variables
 	spriteComp->GetRotation(rotationInDegree);
 	spriteComp->GetPosition(player_X, player_Y);
+	m_Camera_X = player_X;
+	m_Camera_Y = player_Y;
 
 	float cursorX, cursorY = 0.f;
 	engine->GetCursorPosition(cursorX, cursorY);
@@ -140,9 +143,6 @@ bool PlayerSystem::UpdateEntity(UrsusEngine::Engine* engine, std::shared_ptr<Urs
 		bulletComp->SetLifeTime(2.0f);
 
 		engine->AddEntity(bulletEntity);
-
-
-
 	}
 	playerComp->SetBulletSpawnCooldown(bulletSpawnCD);
 	std::vector<std::shared_ptr<UrsusEngine::ECS::Entity>> collisions;

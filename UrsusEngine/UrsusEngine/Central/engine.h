@@ -45,7 +45,10 @@ namespace UrsusEngine
 		void RemoveEntity(std::shared_ptr<ECS::Entity> entity);
 		void AddSystem(std::shared_ptr<ECS::ISystem> system);
 		void RemoveSystem(std::shared_ptr<ECS::ISystem> system);
+
+		//Window
 		const std::shared_ptr<Window> GetWindow() const { return m_Window; }
+		void SetViewCenter(const float X, const float Y);
 
 
 	private:

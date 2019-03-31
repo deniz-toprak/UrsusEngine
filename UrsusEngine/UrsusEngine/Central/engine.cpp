@@ -139,3 +139,7 @@ void Engine::RemoveSystem(std::shared_ptr<ECS::ISystem> system)
 	m_Systems.erase(systemItr);
 }
 
+void Engine::SetViewCenter(float X, float Y)
+{
+	m_Window->SetViewCenter(X, Y);
+}

@@ -11,6 +11,7 @@ namespace sf
 	class Text;
 	class Texture;
 	class VertexArray;
+	class View;
 }
 
 namespace UrsusEngine
@@ -29,8 +30,12 @@ namespace UrsusEngine
 		void Draw(const std::shared_ptr<sf::Text>& text);
 		void Draw(const sf::VertexArray* vertexArray, const std::shared_ptr<sf::Texture> texture);
 		const std::shared_ptr<sf::RenderWindow>& GetWindow() { return m_Window; }
+		void SetViewCenter(const float X, const float Y);
+		void GetViewPosition(float& X, float& Y);
 
 	private:
 		std::shared_ptr<sf::RenderWindow> m_Window;
+		std::unique_ptr<sf::View> m_GameView;
+		std::unique_ptr<sf::View> m_UIView;
 	};
 }
