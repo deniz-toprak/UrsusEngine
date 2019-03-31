@@ -4,6 +4,7 @@
 #include "BulletSystem.h"
 #include "PlayerSystem.h"
 #include "MapSystem.h"
+#include "EnemySystem.h"
 
 #include <memory>
 #include <ctime>
@@ -36,6 +37,10 @@ int EngineMain()
 	//Create Player system
 	std::shared_ptr<PlayerSystem> playerSystem = std::make_shared<PlayerSystem>();
 	engine->AddSystem(playerSystem);
+
+	//Create enemy system
+	std::shared_ptr<EnemySystem> enemySystem = std::make_shared<EnemySystem>();
+	engine->AddSystem(enemySystem);
 
 	//Load map and player 	
 	std::shared_ptr<MapSystem> mapSystem = std::make_shared<MapSystem>();

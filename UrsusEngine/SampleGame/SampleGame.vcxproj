@@ -156,6 +156,8 @@
   <ItemGroup>
     <ClCompile Include="BulletComponent.cpp" />
     <ClCompile Include="BulletSystem.cpp" />
+    <ClCompile Include="EnemyComponent.cpp" />
+    <ClCompile Include="EnemySystem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapSystem.cpp" />
     <ClCompile Include="PhysicComponent.cpp" />
@@ -169,6 +171,8 @@
   <ItemGroup>
     <ClInclude Include="BulletComponent.h" />
     <ClInclude Include="BulletSystem.h" />
+    <ClInclude Include="EnemyComponent.h" />
+    <ClInclude Include="EnemySystem.h" />
     <ClInclude Include="MapSystem.h" />
     <ClInclude Include="PhysicComponent.h" />
     <ClInclude Include="PhysicSystem.h" />

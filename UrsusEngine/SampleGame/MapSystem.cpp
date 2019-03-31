@@ -6,6 +6,7 @@
 #include "../UrsusEngine/Graphics/SpriteComponent.h"
 #include "PlayerComponent.h"
 #include "PhysicComponent.h"
+#include "EnemyComponent.h"
 #include "Utils.h"
 
 #ifndef MapURL
@@ -262,7 +263,7 @@ void MapSystem::AddEnemy(UrsusEngine::Engine* engine, const tmx::Object& object,
 	std::shared_ptr<UrsusEngine::ECS::Entity> entity = std::make_shared<UrsusEngine::ECS::Entity>();
 	std::shared_ptr<UrsusEngine::ECS::SpriteComponent> spriteComp = entity->AddComponent<UrsusEngine::ECS::SpriteComponent>();
 	std::shared_ptr<PhysicComponent> physicComp = entity->AddComponent<PhysicComponent>();
-	//std::shared_ptr<EnemyComponent> enemyComp = entity->AddComponent<EnemyComponent>();
+	std::shared_ptr<EnemyComponent> enemyComp = entity->AddComponent<EnemyComponent>();
 	spriteComp->CreateSprite(tile->imagePath);
 	spriteComp->SetPosition(object.getPosition().x, object.getPosition().y);
 
@@ -272,14 +273,14 @@ void MapSystem::AddEnemy(UrsusEngine::Engine* engine, const tmx::Object& object,
 	physicComp->SetTargetFlag(BulletCollisionFlag);
 	for (const tmx::Property& property : tile->properties)
 	{
-		//if (property.getName() == "HP")
-		//{
-		//	enemyComp->SetHP(property.getIntValue());
-		//}
-		//if (property.getName() == "SpeedPerSecond")
-		//{
-		//	enemyComp->SetSpeedPerSecond(property.getFloatValue());
-		//}
+		if (property.getName() == "HP")
+		{
+			enemyComp->SetHP(property.getIntValue());
+		}
+		if (property.getName() == "SpeedPerSecond")
+		{
+			enemyComp->SetSpeedPerSecond(property.getFloatValue());
+		}
 	}
 	engine->AddEntity(entity);
 }
