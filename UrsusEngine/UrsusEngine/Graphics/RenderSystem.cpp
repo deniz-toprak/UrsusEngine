@@ -4,6 +4,7 @@
 #include "../Central/LevelComponent.h"
 #include <SFML/Graphics.hpp>
 #include "../Central/EngineAssert.h"
+#include "TextureManager.h"
 
 
 using namespace UrsusEngine::ECS;
@@ -52,7 +53,7 @@ void RenderSystem::Draw(std::shared_ptr<UrsusEngine::Window> window)
 			unsigned int tileHeight = 0;
 			level->GetTileSize(tileWidth, tileHeight);
 
-			const std::shared_ptr<sf::Texture>& texture = level->GetTileSetTexture();
+			std::shared_ptr<sf::Texture> texture = UrsusEngine::TextureManager::GetInstance().GetTexture(level->GetTextureUrl());
 			
 			unsigned int textureX = texture->getSize().x;
 			unsigned int textureY = texture->getSize().y;
@@ -74,7 +75,7 @@ void RenderSystem::Draw(std::shared_ptr<UrsusEngine::Window> window)
 
 				int spriteIndex = tile.Sprite;
 				int X = (spriteIndex % XTiles) * tileWidth;
-				int Y = std::floor(spriteIndex % XTiles) * tileHeight;
+				int Y = std::floor(spriteIndex % YTiles) * tileHeight;
 
 				//Set UV Coordinates
 				quad[0].texCoords = sf::Vector2f(X, Y);

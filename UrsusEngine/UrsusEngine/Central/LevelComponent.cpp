@@ -17,7 +17,7 @@ LevelComponent::~LevelComponent()
 void LevelComponent::CreateTileset(std::string url, int tileWidth, int tileHeight)
 {
 
-	m_TileSet = TextureManager::GetInstance().GetTexture(url); // cache
+	TextureManager::GetInstance().GetTexture(url); // cache
 	m_TextureUrl = url;
 	m_TileWidth = tileWidth;
 	m_TileHeight = tileHeight;

@@ -62,7 +62,9 @@ void inline PhysicSystem::UpdateSingleEntityPosition(std::shared_ptr<UrsusEngine
 	float X, Y = 0.f;
 	float Vel_X, Vel_Y = 0.f;
 	float damping = 0.f;
+	unsigned int width, height = 0;
 	spriteComp->GetPosition(X, Y);
+	spriteComp->GetSize(width, height);
 	physicsComp->GetVelocity(Vel_X, Vel_Y);
 	physicsComp->GetDamping(damping);
 
@@ -87,12 +89,18 @@ void inline PhysicSystem::UpdateSingleEntityPosition(std::shared_ptr<UrsusEngine
 	Y += Vel_Y * dt;
 	
 	std::shared_ptr<UrsusEngine::LevelComponent> levelComp = m_LevelEntity->GetComponent<UrsusEngine::LevelComponent>();
-	unsigned int width = 0;
-	unsigned int height = 0;
-	levelComp->GetTileSize(width, height);
+	int nextX = 0;
+	int nextY = 0;
+	//Would the next X/Y pos be valid?
 	if (levelComp->IsWalkable(X, Y, width, height))
 	{
+		//if yes then move
 		spriteComp->SetPosition(X, Y);
+	}
+	else
+	{
+		//otherwise set velocity to 0
+		physicsComp->SetVelocity(0.f, 0.f);
 	}
 
 	//spriteComp->SetPosition(X, Y);

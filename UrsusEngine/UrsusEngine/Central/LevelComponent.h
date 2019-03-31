@@ -35,8 +35,8 @@ namespace UrsusEngine
 		const unsigned int GetTotalTileAmount() { return m_Width * m_Height; }
 		const void GetTileSize(unsigned int& tileWidth, unsigned int& tileHeight)
 		{
-			tileWidth = m_Width;
-			tileHeight = m_Height;
+			tileWidth = m_TileWidth;
+			tileHeight = m_TileHeight;
 		}
 
 		const bool IsWalkable(const float left, const float top, const float width, const float height);
