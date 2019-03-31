@@ -32,7 +32,6 @@ void LevelComponent::SetLevel(std::vector<Tile>& tiles, int width, int height)
 
 const Tile& LevelComponent::GetTileSprite(const unsigned int index) const
 {
-	assert(m_Tiles.size() >= index);
 	return m_Tiles[index];
 }
 
@@ -46,7 +45,7 @@ const bool LevelComponent::IsWalkable(const float left, const float top, const f
 	if (rightTopTile.IsCollidable) return false;
 	const Tile& leftBottomTile = GetTile(left - centerOffsetX, top + centerOffsetY);
 	if (leftBottomTile.IsCollidable) return false;
-	const Tile& rightBottomTile = GetTile(left + centerOffsetX, top - centerOffsetY);
+	const Tile& rightBottomTile = GetTile(left + centerOffsetX, top + centerOffsetY);
 	if (rightBottomTile.IsCollidable) return false;
 
 	return true;
@@ -69,6 +68,5 @@ const Tile& LevelComponent::GetTile(const float X, const float Y) const
 	//calculate the index based on the x and y position of one tile
 	int index = tileX + (tileY * m_Width);
 	//return the tile at this position
-	assert(m_Tiles.size() >= index);
 	return m_Tiles[index];
 }

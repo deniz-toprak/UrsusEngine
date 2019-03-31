@@ -16,13 +16,6 @@ PhysicSystem::~PhysicSystem()
 
 }
 
-
-void PhysicSystem::SetBoundaries(const float max_X, const float max_Y)
-{
-	m_Max_X = max_X;
-	m_Max_Y = max_Y;
-}
-
 bool PhysicSystem::DoesEntityMatch(std::shared_ptr<UrsusEngine::ECS::Entity> entity)
 {
 	if (entity->HasComponent<UrsusEngine::LevelComponent>())
@@ -89,8 +82,8 @@ void inline PhysicSystem::UpdateSingleEntityPosition(std::shared_ptr<UrsusEngine
 	Y += Vel_Y * dt;
 	
 	std::shared_ptr<UrsusEngine::LevelComponent> levelComp = m_LevelEntity->GetComponent<UrsusEngine::LevelComponent>();
-	int nextX = 0;
-	int nextY = 0;
+	int nextX = X + (Vel_X * dt);
+	int nextY = Y + (Vel_Y * dt);
 	//Would the next X/Y pos be valid?
 	if (levelComp->IsWalkable(X, Y, width, height))
 	{
