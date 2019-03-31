@@ -1,12 +1,11 @@
-#include <random>
+#include <memory>
 #include <ctime>
+#include <algorithm>
 #include "UrsusEngine/Central/engine.h"
-#include "../UrsusEngine/Graphics/Sprite.h"
-#include "../UrsusEngine/Graphics/Text.h"
-#include "Player.h"
-#include "Asteroid.h"
-#include "Bullet.h"
-#include "Score.h"
+#include "../UrsusEngine/Graphics/SpriteComponent.h"
+#include "PhysicComponent.h"
+#include "PhysicSystem.h"
+
 
 
 #ifdef  _DEBUG
@@ -17,10 +16,44 @@
 
 int EngineMain()
 {
+	int AsteroidCollisionFlag = 0;
+	AsteroidCollisionFlag |= 1 << 0;
+	//Window dimension
 	const int width = 640;
 	const int height = 480;
-	std::shared_ptr<UrsusEngine::Engine> engine = std::make_shared<UrsusEngine::Engine>(width, height, "Test", false);
+	//Create Engine
+	std::shared_ptr<UrsusEngine::Engine> engine = std::make_shared<UrsusEngine::Engine>(width, height, "Test");
 	
+	//Create PhysicSystem
+	std::shared_ptr<PhysicSystem> physicSystem = std::make_shared<PhysicSystem>();
+	physicSystem->SetBoundaries((float)width, (float)height);
+	engine->AddSystem(physicSystem);
+	
+	//Create Player
+	std::shared_ptr<UrsusEngine::ECS::Entity> playerEntity = std::make_shared<UrsusEngine::ECS::Entity>();
+	std::shared_ptr<UrsusEngine::ECS::SpriteComponent> playerSprite = playerEntity->AddComponent<UrsusEngine::ECS::SpriteComponent>();
+	std::shared_ptr<PhysicComponent> playerPhysic = playerEntity->AddComponent<PhysicComponent>();
+
+	playerSprite->CreateSprite("Resources/Asteroid_Graphics/player.png");
+	playerSprite->SetPosition(width / 2, height / 2);
+	playerPhysic->SetVelocity(100.f, 0.f);
+	playerPhysic->SetDamping(0.998f);
+	playerPhysic->SetTargetFlag(AsteroidCollisionFlag);
+	engine->AddEntity(playerEntity);
+	
+
+	while (engine->IsRunning())
+	{
+		engine->Update();
+		engine->Draw();
+	}
+}
+
+/*
+
+LEGACY
+
+
 
 	//Create Player Sprite
 	//Resources located in /bin which are ignored for now in github
@@ -30,7 +63,7 @@ int EngineMain()
 
 	//Bullets for player
 	std::vector<std::shared_ptr<Bullet>> bullets;
-	
+
 	//Score
 	std::shared_ptr<UrsusEngine::Text> scoreText = engine->CreateText("Resources/Asteroid_Graphics/Hyperspace.otf");
 	std::unique_ptr<Score> score = std::make_unique<Score>(scoreText);
@@ -56,10 +89,10 @@ int EngineMain()
 	{
 		//Update engine and thus deltaTime
 		engine->Update();
-		
+
 		//Add current elapsed time to accumulator
 		accumulator += engine->GetElapsedTimeAsSeconds();
-		
+
 		//Accumulator logic is for scaling the physics correct
 		//depending on your computer
 		//Meaning: low-end pcs will go through the loop more often than
@@ -75,7 +108,7 @@ int EngineMain()
 			//Time-Scaled Player movement
 			player->HandleInput(engine);
 			player->Update(dt);
-			
+
 			//Check for bullet input
 			if (player->IsShooting())
 			{
@@ -139,7 +172,7 @@ int EngineMain()
 					std::shared_ptr<Asteroid> asteroid = (*asteroidIterator);
 					if (bullet->GetSprite()->IsCollidingWith(asteroid->GetSprite()))
 					{
-						
+
 						asteroidIterator = asteroids.erase(asteroidIterator);
 						asteroid = nullptr;
 						collide = true;
@@ -206,4 +239,5 @@ int EngineMain()
 	//nothing
 	engine = nullptr;
 	return 0;
-}
+
+	*/

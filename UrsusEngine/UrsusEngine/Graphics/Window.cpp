@@ -3,17 +3,16 @@
 
 using namespace UrsusEngine;
 
-Window::Window(const int width, const int height, const std::string title, const bool fullscreen)
+Window::Window(const int width, const int height, const std::string title)
 {
 	//Set up new mode
 	//take over width and height params
 	sf::VideoMode mode;
 	mode.height = height;
 	mode.width = width;
-	//Ternary operator for fullscreen
-	int style = fullscreen ? sf::Style::Fullscreen : sf::Style::Default;
+	int style = sf::Style::Default;
 	//create instance of RenderWindow
-	m_Window = std::make_unique<sf::RenderWindow>(mode, title, style);
+	m_Window = std::make_shared<sf::RenderWindow>(mode, title, style);
 }
 
 Window::~Window()
@@ -22,8 +21,6 @@ Window::~Window()
 
 bool Window::Update()
 {
-	//BeginDraw();
-
 	sf::Event event;
 	//Handle window events
 	while (m_Window->pollEvent(event))
@@ -51,12 +48,12 @@ void Window::EndDraw()
 	m_Window->display();
 }
 
-void Window::Draw(std::shared_ptr<Sprite> sprite)
+void Window::Draw(const std::shared_ptr<sf::Sprite>& sprite)
 {
-	m_Window->draw(*sprite->GetSprite());
+	m_Window->draw(*sprite);
 }
 
-void Window::Draw(std::shared_ptr<Text> text)
+void Window::Draw(const std::shared_ptr<sf::Text>& text)
 {
-	m_Window->draw(*text->GetText());
+	m_Window->draw(*text);
 }

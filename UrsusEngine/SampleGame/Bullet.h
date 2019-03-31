@@ -1,5 +1,7 @@
 #pragma once
+#include <memory>
 #include "../UrsusEngine/Central/engine.h"
+#include "UrsusEngine/Graphics/Sprite.h"
 
 class Bullet
 {

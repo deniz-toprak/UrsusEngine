@@ -1,5 +1,6 @@
 #pragma once
 #include "../UrsusEngine/Central/engine.h"
+#include "UrsusEngine/Graphics/Sprite.h"
 #include "Utils.h"
 
 class Player

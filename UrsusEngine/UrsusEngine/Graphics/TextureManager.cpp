@@ -21,7 +21,7 @@ std::shared_ptr<sf::Texture>& TextureManager::GetTexture(std::string texturePath
 		std::shared_ptr<sf::Texture> texture = std::make_shared<sf::Texture>();
 		texture->loadFromFile(texturePath);
 		m_Textures[texturePath] = texture;
-		return texture;
+		return m_Textures[texturePath];
 	}
 	return m_Textures.find(texturePath)->second;
 }

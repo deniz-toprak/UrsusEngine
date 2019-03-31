@@ -1,13 +1,14 @@
 #pragma once
 #include <string>
 #include <memory>
-#include "Sprite.h"
-#include "Text.h"
+
 
 //forward declare sfml render window class
 namespace sf
 {
 	class RenderWindow;
+	class Sprite;
+	class Text;
 }
 
 namespace UrsusEngine
@@ -15,17 +16,18 @@ namespace UrsusEngine
 	class Window
 	{
 	public:
-		Window(const int width, const int height, const std::string title, const bool fullscreen);
+		Window(const int width, const int height, const std::string title);
 		~Window();
 
 	public:
 		bool Update();
 		void BeginDraw();
 		void EndDraw();
-		void Draw(std::shared_ptr<Sprite> sprite);
-		void Draw(std::shared_ptr<Text> text);
+		void Draw(const std::shared_ptr<sf::Sprite>& sprite);
+		void Draw(const std::shared_ptr<sf::Text>& text);
+		const std::shared_ptr<sf::RenderWindow>& GetWindow() { return m_Window; }
 
 	private:
-		std::unique_ptr<sf::RenderWindow> m_Window;
+		std::shared_ptr<sf::RenderWindow> m_Window;
 	};
 }

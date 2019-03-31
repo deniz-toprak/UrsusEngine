@@ -1,21 +1,26 @@
 #pragma once
 
+//std include 
 #include <string>
 #include <vector>
 #include <memory>
-#include "../Graphics/Window.h"
-#include "../Graphics/Sprite.h"
-#include "../Graphics/Text.h"
-#include "../Graphics/Window.h"
+//engine essentials includes
 #include "InputHelper.h"
 #include "Time.h"
+#include "../Graphics/Window.h"
+
+//ECS Include
+#include "../Patterns/ECS/Entity.h"
+#include "../Patterns/ECS/ISystem.h"
+#include "../Graphics/RenderSystem.h"
+
 
 namespace UrsusEngine
 {
 	class Engine
 	{
 	public:
-		Engine(const int width, const int height, const std::string title, const bool fullscreen);
+		Engine(const int width, const int height, const std::string title);
 		~Engine();
 
 	public:
@@ -25,8 +30,7 @@ namespace UrsusEngine
 
 		//Graphics & Window
 		void Draw();
-		std::shared_ptr<Sprite> CreateSprite(const char* url);
-		std::shared_ptr<Text> CreateText(const char* url);
+
 
 		//Input handling
 		bool IsKeyPressed(Key key);
@@ -34,17 +38,25 @@ namespace UrsusEngine
 		//Time
 		const float GetElapsedTimeAsSeconds();
 
+		//ESC
+		void AddEntity(std::shared_ptr<ECS::Entity> entity);
+		void RemoveEntity(std::shared_ptr<ECS::Entity> entity);
+		void AddSystem(std::shared_ptr<ECS::ISystem> system);
+		void RemoveSystem(std::shared_ptr<ECS::ISystem> system);
+
+
 	private:
 		//Window handling
 		bool m_IsRunning;
-		std::unique_ptr<Window> m_Window;
-	
-
-		//Graphics
-		std::vector<std::shared_ptr<Sprite>> m_Sprites;
-		std::vector<std::shared_ptr<Text>> m_Texts;
-
+		std::shared_ptr<Window> m_Window;
+		//Rendering
+		std::shared_ptr<ECS::RenderSystem> m_RenderSystem;
 		//Time handling
 		std::unique_ptr<Time> m_Time;
+		std::vector<std::shared_ptr<ECS::Entity>> m_Entities;
+		std::vector<std::shared_ptr<ECS::ISystem>> m_Systems;
+
+		//For engine update
+		float m_AccumulatedTime = 0.f;
 	};
 }

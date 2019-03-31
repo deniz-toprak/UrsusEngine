@@ -17,8 +17,8 @@ void SpriteComponent::CreateSprite(std::string url)
 	//Dereference pointer
 	std::shared_ptr<sf::Texture>& texture = TextureManager::GetInstance().GetTexture(url);
 	m_Sprite = std::make_shared<sf::Sprite>(*texture);
-	sf::Vector2f origin = sf::Vector2f(texture->getSize().x / 2, texture->getSize().y / 2);
-	m_Sprite->setOrigin(origin);
+	
+	m_Sprite->setOrigin(texture->getSize().x/2, texture->getSize().y/2);
 }
 
 void SpriteComponent::SetPosition(const float X, const float Y)
@@ -29,6 +29,17 @@ void SpriteComponent::SetPosition(const float X, const float Y)
 void SpriteComponent::SetRotation(const float Rot)
 {
 	m_Sprite->setRotation(Rot);
+}
+
+void SpriteComponent::GetPosition(float& X, float& Y)
+{
+	X = m_Sprite->getPosition().x;
+	Y = m_Sprite->getPosition().y;
+}
+
+void SpriteComponent::GetRotation(float& rotationInDegrees)
+{
+	rotationInDegrees = m_Sprite->getRotation();
 }
 
 const bool SpriteComponent::IsCollidingWith(std::shared_ptr<SpriteComponent> otherSprite)

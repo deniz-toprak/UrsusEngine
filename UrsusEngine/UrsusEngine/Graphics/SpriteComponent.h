@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <string>
+#include "../Patterns/ECS/IComponent.h"
 
 //forward declare sprite and texture
 namespace sf
@@ -13,7 +14,7 @@ namespace UrsusEngine
 {
 	namespace ECS
 	{
-		class SpriteComponent
+		class SpriteComponent : public IComponent
 		{
 		public:
 			SpriteComponent();
@@ -39,7 +40,7 @@ namespace UrsusEngine
 			const bool IsCollidingWith(const float left, const float top, const float width, const float height);
 
 		private:
-			std::shared_ptr<sf::Sprite>& m_Sprite = nullptr;
+			std::shared_ptr<sf::Sprite> m_Sprite = nullptr;
 		};
 	
 	}
