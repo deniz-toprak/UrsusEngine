@@ -1,9 +1,22 @@
 #pragma once
 
-
-
 namespace UrsusEngine
 {
+	//forward declare engine
+	class Engine;
+
+	//Copied from SFML/include/SFML/Window/Mouse.hpp
+	enum MouseButton
+	{
+		Left,       ///< The left mouse button
+		Right,      ///< The right mouse button
+		Middle,     ///< The middle (wheel) mouse button
+		XButton1,   ///< The first extra mouse button
+		XButton2,   ///< The second extra mouse button
+
+		ButtonCount ///< Keep last -- the total number of mouse buttons
+	};
+
 	//Copied from SFML/include/SFML/Window/Keyboard.hpp
 	enum Key
 	{
@@ -116,6 +129,7 @@ namespace UrsusEngine
 	{
 	public:
 		static bool IsKeyPressed(Key key);
-
+		static bool IsMousePresse(MouseButton button);
+		static void GetCurserPosition(const Engine* engine, float& X, float& Y);
 	};
 }

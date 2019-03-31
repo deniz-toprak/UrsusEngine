@@ -34,6 +34,8 @@ namespace UrsusEngine
 
 		//Input handling
 		bool IsKeyPressed(Key key);
+		bool IsMousePressed(MouseButton button);
+		bool GetCursorPosition(float& X, float& Y) const;
 
 		//Time
 		const float GetElapsedTimeAsSeconds();
@@ -43,6 +45,7 @@ namespace UrsusEngine
 		void RemoveEntity(std::shared_ptr<ECS::Entity> entity);
 		void AddSystem(std::shared_ptr<ECS::ISystem> system);
 		void RemoveSystem(std::shared_ptr<ECS::ISystem> system);
+		const std::shared_ptr<Window> GetWindow() const { return m_Window; }
 
 
 	private:

@@ -64,6 +64,17 @@ bool Engine::IsKeyPressed(Key key)
 	return InputHelper::IsKeyPressed(key);
 }
 
+bool Engine::IsMousePressed(MouseButton button)
+{
+	return InputHelper::IsMousePresse(button);
+}
+
+bool Engine::GetCursorPosition(float& X, float& Y) const
+{
+	InputHelper::GetCurserPosition(this, X, Y);
+}
+
+
 const float Engine::GetElapsedTimeAsSeconds()
 {
 	return m_Time->GetElapsedTimeAsSeconds();
