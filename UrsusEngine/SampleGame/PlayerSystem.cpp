@@ -5,6 +5,8 @@
 #include "../UrsusEngine/Graphics/SpriteComponent.h"
 #include "PhysicComponent.h"
 #include "BulletComponent.h"
+#include "ScoreEvent.h"
+//#include "../UrsusEngine/Central/EventManager.h"
 
 
 PlayerSystem::PlayerSystem()
@@ -44,6 +46,10 @@ void PlayerSystem::Update(UrsusEngine::Engine* engine, float dt)
 		{
 			//Remove the entity from the engine
 			engine->RemoveEntity(entity);
+
+			//throw dead event
+			std::shared_ptr<DeadEvent> event = std::make_shared<DeadEvent>();
+			UrsusEngine::EventManager::GetInstance().PushEvent(event);
 		}
 		++entityItr;
 	}

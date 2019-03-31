@@ -18,5 +18,6 @@ private:
 	std::shared_ptr<ScoreEventHandler> m_Listener;
 	UrsusEngine::EventFunctor m_ScoreEventFunctor;
 	int m_ScoreAdd = 0;
+	bool m_Dead = false;
 
 };

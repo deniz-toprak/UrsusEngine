@@ -7,11 +7,17 @@ public:
 	int Score = 0;
 };
 
+class DeadEvent : public UrsusEngine::IEvent
+{
+
+};
+
 class ScoreEventHandler : public UrsusEngine::IEventHandler
 {
 public:
 	bool DoesEventMatch(std::shared_ptr<UrsusEngine::IEvent> event) override
 	{
-		return std::dynamic_pointer_cast<ScoreEvent>(event) != nullptr;
+		return std::dynamic_pointer_cast<ScoreEvent>(event) != nullptr 
+			|| std::dynamic_pointer_cast<DeadEvent>(event) != nullptr;
 	}
 };

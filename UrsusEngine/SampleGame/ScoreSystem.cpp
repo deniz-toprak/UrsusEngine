@@ -42,8 +42,16 @@ void ScoreSystem::Update(UrsusEngine::Engine* engine, float dt)
 		int score = 0;
 		scoreComp->GetScore(score);
 
-		//Dead screen will be reintroduced later with event system
-		textComp->SetText("Score " + std::to_string(score));
+		if (m_Dead)
+		{
+			textComp->SetPosition(640 / 2, 480 / 2);
+			textComp->SetText("You are dead!\nYour Score " + std::to_string(score));
+		}
+		else
+		{
+			textComp->SetText("Score " + std::to_string(score));
+
+		}
 		++entityItr;
 	}
 }
@@ -51,16 +59,25 @@ void ScoreSystem::Update(UrsusEngine::Engine* engine, float dt)
 void ScoreSystem::OnScoreChange(std::shared_ptr<UrsusEngine::IEvent> event)
 {
 	std::shared_ptr<ScoreEvent> scoreEvent = std::dynamic_pointer_cast<ScoreEvent>(event);
-	assert(scoreEvent != nullptr);
+	std::shared_ptr<DeadEvent> deadEvent = std::dynamic_pointer_cast<DeadEvent>(event);
 
-	std::vector<std::shared_ptr<UrsusEngine::ECS::Entity>> copiedEntities = m_Entities;
-	for (std::shared_ptr<UrsusEngine::ECS::Entity>& entity : m_Entities)
+	if (scoreEvent != nullptr)
 	{
-		std::shared_ptr<ScoreComponent> scoreComp = entity->GetComponent<ScoreComponent>();
-		//get the values from the component
-		int score = 0;
-		scoreComp->GetScore(score);
-		score += scoreEvent->Score;
-		scoreComp->SetScore(score);
+		std::vector<std::shared_ptr<UrsusEngine::ECS::Entity>> copiedEntities = m_Entities;
+		for (std::shared_ptr<UrsusEngine::ECS::Entity>& entity : m_Entities)
+		{
+			std::shared_ptr<ScoreComponent> scoreComp = entity->GetComponent<ScoreComponent>();
+			//get the values from the component
+			int score = 0;
+			scoreComp->GetScore(score);
+			score += scoreEvent->Score;
+			scoreComp->SetScore(score);
+		}
 	}
+
+	if (deadEvent != nullptr)
+	{
+		m_Dead = true;
+	}
+
 }
