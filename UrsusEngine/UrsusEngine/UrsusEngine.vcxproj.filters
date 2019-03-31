@@ -21,13 +21,7 @@
     <ClCompile Include="Graphics\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\Sprite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Central\Time.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Central\InputHelper.cpp">
@@ -56,13 +50,7 @@
     <ClInclude Include="Graphics\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\Sprite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Central\Time.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Central\InputHelper.h">
@@ -87,6 +75,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\TextComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Central\EngineAssert.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

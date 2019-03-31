@@ -9,6 +9,9 @@
 #include "BulletSystem.h"
 #include "PlayerComponent.h"
 #include "PlayerSystem.h"
+#include "ScoreSystem.h"
+#include "ScoreComponent.h"
+#include "../UrsusEngine/Graphics/TextComponent.h"
 
 
 
@@ -46,7 +49,22 @@ int EngineMain()
 	//Create Player system
 	std::shared_ptr<PlayerSystem> playerSystem = std::make_shared<PlayerSystem>();
 	engine->AddSystem(playerSystem);
+
+	//Create score
+	std::shared_ptr<ScoreSystem> scoreSystem = std::make_shared<ScoreSystem>();
+	engine->AddSystem(scoreSystem);
+	std::shared_ptr<UrsusEngine::ECS::Entity> scoreEntity = std::make_shared<UrsusEngine::ECS::Entity>();
+	std::shared_ptr<UrsusEngine::ECS::TextComponent> scoreText = scoreEntity->AddComponent<UrsusEngine::ECS::TextComponent>();
+	std::shared_ptr<ScoreComponent> scoreComp = scoreEntity->AddComponent<ScoreComponent>();
+
 	
+	scoreText->CreateText("Resources/Asteroid_Graphics/Hyperspace.otf");
+	scoreText->SetPosition(10.f, 10.f);
+	scoreText->SetColour(255, 255, 255, 255);
+	scoreText->SetSize(24);
+
+	engine->AddEntity(scoreEntity);
+
 	//Create Player
 	std::shared_ptr<UrsusEngine::ECS::Entity> playerEntity = std::make_shared<UrsusEngine::ECS::Entity>();
 	std::shared_ptr<UrsusEngine::ECS::SpriteComponent> playerSprite = playerEntity->AddComponent<UrsusEngine::ECS::SpriteComponent>();

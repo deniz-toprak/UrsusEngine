@@ -171,8 +171,6 @@
     <ClCompile Include="Central\Time.cpp" />
     <ClCompile Include="Graphics\RenderSystem.cpp" />
     <ClCompile Include="Graphics\SpriteComponent.cpp" />
-    <ClCompile Include="Graphics\Sprite.cpp" />
-    <ClCompile Include="Graphics\Text.cpp" />
     <ClCompile Include="Graphics\TextComponent.cpp" />
     <ClCompile Include="Graphics\TextureManager.cpp" />
     <ClCompile Include="Graphics\Window.cpp" />
@@ -180,12 +178,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Central\engine.h" />
+    <ClInclude Include="Central\EngineAssert.h" />
     <ClInclude Include="Central\InputHelper.h" />
     <ClInclude Include="Central\Time.h" />
     <ClInclude Include="Graphics\RenderSystem.h" />
     <ClInclude Include="Graphics\SpriteComponent.h" />
-    <ClInclude Include="Graphics\Sprite.h" />
-    <ClInclude Include="Graphics\Text.h" />
     <ClInclude Include="Graphics\TextComponent.h" />
     <ClInclude Include="Graphics\TextureManager.h" />
     <ClInclude Include="Graphics\Window.h" />
