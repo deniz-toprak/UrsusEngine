@@ -12,7 +12,8 @@ struct Tile
 {
 	float X;
 	float Y;
-	unsigned int Sprite;
+	int textureX;
+	int textureY;
 	bool IsCollidable;
 };
 

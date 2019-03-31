@@ -2,6 +2,11 @@
 
 using namespace UrsusEngine::ECS;
 
+void ISystem::Init(UrsusEngine::Engine* engine)
+{
+
+}
+
 void ISystem::AddEntity(std::shared_ptr<Entity> entity)
 {
 	if (std::find(m_Entities.begin(), m_Entities.end(), entity) != m_Entities.end())

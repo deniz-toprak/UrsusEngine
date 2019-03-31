@@ -124,6 +124,16 @@ void Engine::AddSystem(std::shared_ptr<ECS::ISystem> system)
 		return;
 	}
 	m_Systems.push_back(system);
+
+	for (std::shared_ptr<ECS::Entity> entity : m_Entities)
+	{
+		if (system->DoesEntityMatch(entity))
+		{
+			system->AddEntity(entity);
+		}
+	}
+
+	system->Init(this);
 }
 
 void Engine::RemoveSystem(std::shared_ptr<ECS::ISystem> system)

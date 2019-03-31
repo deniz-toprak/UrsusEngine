@@ -73,9 +73,8 @@ void RenderSystem::Draw(std::shared_ptr<UrsusEngine::Window> window)
 				quad[2].position = sf::Vector2f(tile.X + tileWidth, tile.Y + tileHeight);
 				quad[3].position = sf::Vector2f(tile.X, tile.Y + tileHeight);
 
-				int spriteIndex = tile.Sprite;
-				int X = (spriteIndex % XTiles) * tileWidth;
-				int Y = std::floor(spriteIndex % YTiles) * tileHeight;
+				int X = tile.textureX;
+				int Y = tile.textureY;
 
 				//Set UV Coordinates
 				quad[0].texCoords = sf::Vector2f(X, Y);

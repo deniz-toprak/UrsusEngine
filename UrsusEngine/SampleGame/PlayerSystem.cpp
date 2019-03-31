@@ -6,6 +6,7 @@
 #include "PhysicComponent.h"
 #include "BulletComponent.h"
 #include "ScoreEvent.h"
+#include "Utils.h"
 //#include "../UrsusEngine/Central/EventManager.h"
 
 
@@ -137,7 +138,7 @@ bool PlayerSystem::UpdateEntity(UrsusEngine::Engine* engine, std::shared_ptr<Urs
 		bulletSprite->CreateSprite("Resources/Asteroid_Graphics/Bullet.png");
 		bulletSprite->SetPosition(player_X, player_Y);
 		bulletPhysics->SetVelocity(bulletVelocity_X, bulletVelocity_Y);
-		bulletPhysics->SetTargetFlag(AsteroidCollisionFlag);
+		bulletPhysics->SetTargetFlag(EnemyCollisionFlag);
 		bulletPhysics->SetCollisionFlag(BulletCollisionFlag);
 		bulletPhysics->SetDamping(1.0f);
 		bulletComp->SetLifeTime(2.0f);

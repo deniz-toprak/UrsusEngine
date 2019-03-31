@@ -12,8 +12,6 @@ namespace UrsusEngine
 	}
 }
 
-static const unsigned char AsteroidCollisionFlag = 1 << 0;
-static const unsigned char BulletCollisionFlag = 1 << 1;
 
 class PhysicComponent : public UrsusEngine::ECS::IComponent
 {

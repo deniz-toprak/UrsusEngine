@@ -19,6 +19,7 @@ namespace UrsusEngine
 			~ISystem(){}
 
 		public:
+			virtual void Init(UrsusEngine::Engine* engine);
 			virtual bool DoesEntityMatch(std::shared_ptr<Entity> entity) = 0;
 			void AddEntity(std::shared_ptr<Entity> entity);
 			void RemoveEntity(std::shared_ptr<Entity> entity);
