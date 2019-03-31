@@ -5,6 +5,7 @@
 #include "../UrsusEngine/Graphics/SpriteComponent.h"
 #include "PhysicComponent.h"
 #include "PhysicSystem.h"
+#include "AsteroidSpawnSystem.h"
 
 
 
@@ -28,6 +29,14 @@ int EngineMain()
 	std::shared_ptr<PhysicSystem> physicSystem = std::make_shared<PhysicSystem>();
 	physicSystem->SetBoundaries((float)width, (float)height);
 	engine->AddSystem(physicSystem);
+
+	//AsteroidSpawnSystem
+	std::shared_ptr<AsteroidSpawnSystem> asteroidSystem = std::make_shared<AsteroidSpawnSystem>();
+	asteroidSystem->SetBoundaries((float)width, (float)height);
+	asteroidSystem->SetMaxAsteroids(10);
+	asteroidSystem->SetMaxVelocity(50);
+	asteroidSystem->SetSpawnCooldown(0.25f);
+	engine->AddSystem(asteroidSystem);
 	
 	//Create Player
 	std::shared_ptr<UrsusEngine::ECS::Entity> playerEntity = std::make_shared<UrsusEngine::ECS::Entity>();
