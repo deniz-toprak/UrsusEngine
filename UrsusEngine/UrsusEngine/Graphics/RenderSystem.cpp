@@ -40,7 +40,12 @@ void RenderSystem::Draw(std::shared_ptr<UrsusEngine::Window> window)
 		std::shared_ptr<LevelComponent> level = entity->GetComponent<LevelComponent>();
 		if (sprite != nullptr)
 		{
-			window->Draw(sprite->GetSprite());
+			bool visible = false;
+			sprite->GetVisible(visible);
+			if (visible)
+			{
+				window->Draw(sprite->GetSprite());
+			}
 		}
 		if (text != nullptr)
 		{

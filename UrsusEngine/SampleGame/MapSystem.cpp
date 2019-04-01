@@ -7,6 +7,10 @@
 #include "PlayerComponent.h"
 #include "PhysicComponent.h"
 #include "EnemyComponent.h"
+#include "ItemComponent.h"
+#include "AmmoComponent.h"
+#include "HealthComponent.h"
+#include "AmmoComponent.h"
 #include "Utils.h"
 
 #ifndef MapURL
@@ -140,7 +144,7 @@ void MapSystem::LoadUI(UrsusEngine::Engine* engine)
 
 	std::shared_ptr<UrsusEngine::ECS::Entity> ammoEntity = std::make_shared<UrsusEngine::ECS::Entity>();
 	std::shared_ptr<UrsusEngine::ECS::TextComponent> ammoText = ammoEntity->AddComponent<UrsusEngine::ECS::TextComponent>();
-	//std::shared_ptr<AmmoComponent> ammoComp = ammoEntity->AddComponent<AmmoComponent>();
+	std::shared_ptr<AmmoComponent> ammoComp = ammoEntity->AddComponent<AmmoComponent>();
 
 	ammoText->CreateText("Resources/Asteroid_Graphics/Hyperspace.otf");
 	ammoText->SetColour(255, 255, 255, 255);
@@ -151,7 +155,7 @@ void MapSystem::LoadUI(UrsusEngine::Engine* engine)
 
 	std::shared_ptr<UrsusEngine::ECS::Entity> healthEntity = std::make_shared<UrsusEngine::ECS::Entity>();
 	std::shared_ptr<UrsusEngine::ECS::TextComponent> healthText = healthEntity->AddComponent<UrsusEngine::ECS::TextComponent>();
-	//std::shared_ptr<HealthComponent> healthComp = healthEntity->AddComponent<HealthComponent>();
+	std::shared_ptr<HealthComponent> healthComp = healthEntity->AddComponent<HealthComponent>();
 
 	healthText->CreateText("Resources/Asteroid_Graphics/Hyperspace.otf");
 	healthText->SetColour(255, 255, 255, 255);
@@ -246,14 +250,14 @@ void MapSystem::AddPlayer(UrsusEngine::Engine* engine, const tmx::Object& object
 		{
 			playerComp->SetSpeedPerSecond(property.getFloatValue());
 		}
-		//if (property.getName() == "StartAmmo")
-		//{
-		//	playerComp->SetAmmo(property.getIntValue());
-		//}
-		//if (property.getName() == "StartHP")
-		//{
-		//	playerComp->SetHP(property.getIntValue());
-		//}
+		if (property.getName() == "StartAmmo")
+		{
+			playerComp->SetAmmo(property.getIntValue());
+		}
+		if (property.getName() == "StartHP")
+		{
+			playerComp->SetHP(property.getIntValue());
+		}
 	}
 	engine->AddEntity(playerEntity);
 }
@@ -290,20 +294,20 @@ void MapSystem::AddItem(UrsusEngine::Engine* engine, const tmx::Object& object, 
 	std::shared_ptr<UrsusEngine::ECS::Entity> entity = std::make_shared<UrsusEngine::ECS::Entity>();
 	std::shared_ptr<UrsusEngine::ECS::SpriteComponent> spriteComp = entity->AddComponent<UrsusEngine::ECS::SpriteComponent>();
 	std::shared_ptr<PhysicComponent> physicComp = entity->AddComponent<PhysicComponent>();
-	//std::shared_ptr<ItemComponent> itemComp = entity->AddComponent<ItemComponent>();
+	std::shared_ptr<ItemComponent> itemComp = entity->AddComponent<ItemComponent>();
 	spriteComp->CreateSprite(tile->imagePath);
 	spriteComp->SetPosition(object.getPosition().x, object.getPosition().y);
 	physicComp->SetCollisionFlag(ItemCollisionFlag);
 	for (const tmx::Property& property : tile->properties)
 	{
-		//if (property.getName() == "HP")
-		//{
-		//	itemComp->SetHP(property.getIntValue());
-		//}
-		//if (property.getName() == "Ammo")
-		//{
-		//	itemComp->SetAmmo(property.getIntValue());
-		//}
+		if (property.getName() == "HP")
+		{
+			itemComp->SetHP(property.getIntValue());
+		}
+		if (property.getName() == "Ammo")
+		{
+			itemComp->SetAmmo(property.getIntValue());
+		}
 	}
 	engine->AddEntity(entity);
 }

@@ -49,6 +49,16 @@ void SpriteComponent::GetSize(unsigned int& Width, unsigned int& Height)
 	Height = texture->getSize().y;
 }
 
+void SpriteComponent::SetVisible(bool visible)
+{
+	m_Visible = visible;
+}
+
+void SpriteComponent::GetVisible(bool& visible)
+{
+	visible = m_Visible;
+}
+
 const bool SpriteComponent::IsCollidingWith(std::shared_ptr<SpriteComponent> otherSprite)
 {
 	//Get SFML sprite for it's intersection methods

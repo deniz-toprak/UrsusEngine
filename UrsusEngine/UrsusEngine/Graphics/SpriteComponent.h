@@ -35,6 +35,10 @@ namespace UrsusEngine
 			void GetRotation(float& RotationInDegree);
 			//
 			void GetSize(unsigned int& Width, unsigned int& Height);
+			//Woosh houdini confirmed
+			void SetVisible(bool visible);
+			//Woosh houdini busted
+			void GetVisible(bool& visible);
 
 			//Collision check with other sprite
 			const bool IsCollidingWith(std::shared_ptr<SpriteComponent> otherSprite);
@@ -43,6 +47,8 @@ namespace UrsusEngine
 
 		private:
 			std::shared_ptr<sf::Sprite> m_Sprite = nullptr;
+			//Houdini state
+			bool m_Visible = true;
 		};
 	
 	}

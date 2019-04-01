@@ -165,7 +165,7 @@
     <ClCompile Include="PlayerComponent.cpp" />
     <ClCompile Include="PlayerSystem.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
-    <ClCompile Include="ScoreSystem.cpp" />
+    <ClCompile Include="UISystem.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -173,6 +173,9 @@
     <ClInclude Include="BulletSystem.h" />
     <ClInclude Include="EnemyComponent.h" />
     <ClInclude Include="EnemySystem.h" />
+    <ClInclude Include="AmmoComponent.h" />
+    <ClInclude Include="HealthComponent.h" />
+    <ClInclude Include="ItemComponent.h" />
     <ClInclude Include="MapSystem.h" />
     <ClInclude Include="PhysicComponent.h" />
     <ClInclude Include="PhysicSystem.h" />
@@ -180,7 +183,7 @@
     <ClInclude Include="PlayerSystem.h" />
     <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="ScoreEvent.h" />
-    <ClInclude Include="ScoreSystem.h" />
+    <ClInclude Include="UISystem.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

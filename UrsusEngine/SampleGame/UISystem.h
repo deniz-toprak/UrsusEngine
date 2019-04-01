@@ -2,11 +2,11 @@
 #include "../UrsusEngine/Patterns/ECS/ISystem.h"
 #include "ScoreEvent.h"
 
-class ScoreSystem : public UrsusEngine::ECS::ISystem
+class UISystem : public UrsusEngine::ECS::ISystem
 {
 public:
-	ScoreSystem();
-	~ScoreSystem();
+	UISystem();
+	~UISystem();
 public:
 	//ISystem
 	virtual bool DoesEntityMatch(std::shared_ptr<UrsusEngine::ECS::Entity> entity) override;
@@ -17,7 +17,11 @@ public:
 private:
 	std::shared_ptr<ScoreEventHandler> m_Listener;
 	UrsusEngine::EventFunctor m_ScoreEventFunctor;
-	int m_ScoreAdd = 0;
+	//PlayerStats
+	int m_Score = 0;
+	int m_Health = 0;
+	int m_Ammo = 0;
+	//Player State
 	bool m_Dead = false;
 
 };

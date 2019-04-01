@@ -7,6 +7,8 @@
 #include "BulletComponent.h"
 #include "ScoreEvent.h"
 #include "Utils.h"
+#include "EnemyComponent.h"
+#include "ItemComponent.h"
 //#include "../UrsusEngine/Central/EventManager.h"
 
 
@@ -71,7 +73,9 @@ bool PlayerSystem::UpdateEntity(UrsusEngine::Engine* engine, std::shared_ptr<Urs
 	float maxBulletSpawnCD = 0.f;
 	float bulletSpeedPerSecond = 0.f;
 	float player_X, player_Y = 0.f;
-	float rotationPerSecond;
+	int ammo = 0;
+	int hp = 0;
+	float hitCooldown = 0.f;
 	const float PI = 3.141592654f;
 	//Get physicComponent variables
 	physicComp->GetVelocity(Vel_X, Vel_Y);
@@ -80,7 +84,10 @@ bool PlayerSystem::UpdateEntity(UrsusEngine::Engine* engine, std::shared_ptr<Urs
 	playerComp->GetBulletSpawnCooldown(bulletSpawnCD);
 	playerComp->GetMaxBulletSpawnCooldown(maxBulletSpawnCD);
 	playerComp->GetBulletSpeedPerSecond(bulletSpeedPerSecond);
-	playerComp->GetRotationPerSecond(rotationPerSecond);
+	playerComp->GetAmmo(ammo);
+	playerComp->GetHP(hp);
+	playerComp->GetHitCooldown(hitCooldown);
+	
 	//Get spriteComponent variables
 	spriteComp->GetRotation(rotationInDegree);
 	spriteComp->GetPosition(player_X, player_Y);
@@ -120,7 +127,7 @@ bool PlayerSystem::UpdateEntity(UrsusEngine::Engine* engine, std::shared_ptr<Urs
 		bulletSpawnCD = std::max(0.f, bulletSpawnCD - dt);
 	}
 
-	if (engine->IsMousePressed(UrsusEngine::MouseLeft) && bulletSpawnCD <= 0.f)
+	if (engine->IsMousePressed(UrsusEngine::MouseLeft) && bulletSpawnCD <= 0.f && ammo > 0)
 	{
 		//reset cooldown
 		bulletSpawnCD = maxBulletSpawnCD;
@@ -144,13 +151,57 @@ bool PlayerSystem::UpdateEntity(UrsusEngine::Engine* engine, std::shared_ptr<Urs
 		bulletComp->SetLifeTime(2.0f);
 
 		engine->AddEntity(bulletEntity);
+		ammo--;
+		playerComp->SetAmmo(ammo);
 	}
+
 	playerComp->SetBulletSpawnCooldown(bulletSpawnCD);
 	std::vector<std::shared_ptr<UrsusEngine::ECS::Entity>> collisions;
 	physicComp->GetCollisions(collisions);
+	if (hitCooldown > 0)
+	{
+		hitCooldown -= dt;
+	}
+	if (hitCooldown < 0)
+	{
+		hitCooldown = 0;
+	}
+	playerComp->SetHitCooldown(hitCooldown);
+	int flashCD = (int)std::round(hitCooldown * 20) % 2;
+	spriteComp->SetVisible(flashCD == 0);
 	if (collisions.size() == 0)
 	{
 		return true;
 	}
-	return false;
+
+	for (std::shared_ptr<UrsusEngine::ECS::Entity>& collision : collisions)
+	{
+		std::shared_ptr<EnemyComponent> enemyComp = collision->GetComponent<EnemyComponent>();
+		std::shared_ptr<ItemComponent> itemComp = collision->GetComponent<ItemComponent>();
+		if (enemyComp != nullptr && hitCooldown <= 0)
+		{
+			hp--;
+			if (hp == 0)
+			{
+				return false;
+			}
+			playerComp->SetHP(hp);
+			playerComp->SetHitCooldown(1.0f);
+			continue;
+		}
+		else if (itemComp != nullptr)
+		{
+			int itemAmmo = 0;
+			int itemHP = 0;
+			itemComp->GetAmmo(itemAmmo);
+			itemComp->GetHP(itemHP);
+			ammo += itemAmmo;
+			hp += itemHP;
+			playerComp->SetHP(hp);
+			playerComp->SetAmmo(ammo);
+			engine->RemoveEntity(collision);
+		}
+	}
+
+	return true;
 }
